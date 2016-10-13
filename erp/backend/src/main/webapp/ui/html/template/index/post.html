@@ -1,0 +1,56 @@
+<div class="lay4_wrap" ng-controller="postController">
+    <!--POST START-->
+    <div class="lay4_inner">
+        <div class=" post type-post status-publish format-standard hentry category-uncategorized" ng-repeat="c in content">
+            <!--POST THUMBNAIL START-->
+            <div class="post_image">
+                <!--CALL TO POST IMAGE-->
+
+                <div class="imgwrap">
+                    <a href="../resources/img/blank_img.png" alt="intall scala 2.11 in ubuntu 12.04" class="optimizer_thumbnail" /></a>
+                </div>
+
+            </div>
+            <!--POST THUMBNAIL END-->
+
+            <!--POST CONTENT START-->
+            <div class="post_content">
+                <h2 class="postitle"><a ng-Href="#/detail/{{c.id}}" title="">{{c.title}}</a></h2>
+                <!--META INFO START-->
+                <div class="single_metainfo">
+                    <!--DATE-->
+                    <i class="fa fa-calendar"></i><a class="comm_date">{{c.time | date:'medium'}}</a>
+                    <!--AUTHOR-->
+                    <i class="fa fa-user"></i><a class='auth_meta' href="http://10.9.251.145/alpaca/index.php/author/yanjunzhou/">{{c.author}}</a>
+                    <!--COMMENTS COUNT-->
+                    <i class="fa fa-comments"></i>
+                    <div class="meta_comm"><a href="">{{c.comment}}</a></div>
+                    <!--CATEGORY-->
+                    <i class="fa fa-th-list"></i>
+                    <div class="catag_list"><a href="" rel="category tag">{{c.category}}</a></div>
+                </div>
+                <!--META INFO START-->
+
+                <p>{{c.intro}}</p>
+            </div>
+            <!--POST CONTENT END-->
+            <!--Read More Button-->
+            <div class="blog_mo"><a href="">+ Read More</a></div>
+        </div>
+    </div>
+    <!--POST END-->
+    <!--PAGINATION START-->
+    <div class="ast_pagenav">
+        <nav class="navigation pagination" role="navigation">
+            <h2 class="screen-reader-text">Posts navigation</h2>
+            <div class="nav-links">
+                <a ng-if="pageInfo.current > 1" class="previous page-numbers" ng-click="previousPage()">previous</a>
+                <span class='page-numbers current'>{{pageInfo.current}}</span>
+                <a ng-if="pageInfo.current < pageInfo.total" class="next page-numbers" ng-click="nextPage()">next</a>
+                <span class="pull-right " style="padding-right:20px">total {{pageInfo.total}}</span>
+            </div>
+        </nav>
+    </div>
+
+    <!--PAGINATION END-->
+</div>

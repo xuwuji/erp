@@ -1,0 +1,60 @@
+<div class="lay4_wrap" ng-controller="insertController">
+    <div class="lay4_inner">
+        <div class="row filter-row" id="phd-tour-step2">
+            <div class="topbox">
+                <div id="phd_filter" class="nous-fix-top  nousfilter topbar" style="height: 50px">
+                    <div class="tabButton filtersBut" ng-click="filterBtnClick()">
+                        <h2 class="tabtab" id="icon-filter-con">
+                    <span class="icon-filter"></span>
+                </h2> </div>
+                    <div class="filtersCon tabCon">
+                        <div class="filtersConCon tabConCon" style="overflow: hidden;">
+                            <label>aa</label><select name="aa" toggle ng-model="aa" selectpicker multiple data-live-search="true" class="" ng-options="d.value as d.display for d in dim.option|filter:cascadeExpression" data-width="{{dim.width}}"></select>
+                            <div class="filterUnit" style="display: block;" ng-repeat="dim in dims">
+                                <label>{{dim.title}}</label>
+                                <div>
+                                    <select ng-if="dim.isCascade && dim.isMultiple" name="{{dim.id}}" toggle ng-model="result[dim.id]['value']" selectpicker multiple data-live-search="true" class="" ng-options="d.value as d.display for d in dim.option|filter:cascadeExpression" data-width="{{dim.width}}"></select>
+                                    <select ng-if="!dim.isCascade && dim.isMultiple" name="{{dim.id}}" toggle ng-model="result[dim.id]['value']" selectpicker multiple data-live-search="true" class="" ng-options="d.value as d.display for d in dim.option" data-width="{{dim.width}}"></select>
+                                    <select ng-if="dim.isCascade && !dim.isMultiple" name="{{dim.id}}" toggle ng-model="result[dim.id]['value']" selectpicker data-live-search="true" class="" ng-options="d.value as d.display for d in dim.option|filter:cascadeExpression" data-width="{{dim.width}}"></select>
+                                    <select ng-if="!dim.isCascade && !dim.isMultiple" name="{{dim.id}}" toggle ng-model="result[dim.id]['value']" selectpicker data-live-search="true" class="" ng-options="d.value as d.display for d in dim.option" data-width="{{dim.width}}"></select>
+                                </div>
+                                <div style="position: relative" ng-if="dim.type === 'daterange'"> <i class="glyphicon glyphicon-calendar fa fa-calendar" style="position: absolute;top: 10px;left: 12px;"></i>
+                                    <input daterangepicker options="dim.option" style="width: 220px;padding-left: 36px;" class="form-control date-picker" type="text" ng-model="result[dim.id]['value']"> </input>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="tabButton splitBut" ng-if="hasSplit" ng-click="splitBtnClick()">
+                        <h2 class="tabtab" id="icon-split-con" style="margin-left:4px;">
+                    <span class="icon-split"></span>
+                </h2> </div>
+                    <div class="splitCon tabCon" ng-if="hasSplit">
+                        <div class="splitConCon tabConCon" style="overflow: visible;">
+                            <div class="filterUnit" style="display: block;" ng-repeat="spliterPicker in split.spliterPicker">
+                                <label>{{$first ? "Compare" : "And"}}</label>
+                                <div>
+                                    <select toggle ng-model="split.result[$index]" selectpicker ng-disabled="split.result[$index] == '_none_' && !$first && split.result[$index-1] == '_none_'" data-live-search="true" class="" ng-options="d.value as d.display for d in spliterPicker"></select>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <button ng-show="buttonShow" ng-click="applyFilter()" style="float: left; margin-top: 5px;" class="btn btn-outline btn-primary"> Apply </button>
+                    <div class="clear"></div>
+                </div>
+                <div class="indiCon topbar" style="height: 90px; padding-top: 10px; padding-bottom: 10px;">
+                    <div class="indiConCon" style="height: 70px;">
+                        <div class="filterIndi">
+                            <label>Filter</label> <span ng-repeat="f in filterViewer">{{f.title}}: {{f.value | limitTo : 30}} <span ng-if="f.value.length > 30" data-toggle="tooltip" data-placement="top" title="{{f.value}}">...</span></span>
+                        </div>
+                        <div class="splitIndi" ng-if="hasSplit">
+                            <label>Compare</label> <span>{{splitViewer}}</span> </div>
+                        <div>
+                            <label>Display</label> <span>7DMA <input ng-model="_7DMA" type="checkbox"/></span> </div>
+                    </div>
+                </div>
+            </div>
+        </div> > </div>
+</div>

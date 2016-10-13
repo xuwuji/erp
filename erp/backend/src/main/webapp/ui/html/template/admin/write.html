@@ -1,0 +1,21 @@
+<div class="lay4_wrap" ng-controller="writeController">
+    <div class="lay4_inner">
+
+        <div class="input-group">
+            <span class="input-group-addon">Title: </span>
+            <input type="text" class="form-control" />
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"> Category:</span>
+            <input type="text" class="form-control" />
+        </div>
+        <div bind-html-compile="content"></div>
+
+        <div ckeditor="options" ng-model="content" ready="onReady()"></div>
+        <div style=" width: 25%;margin: 0 auto;padding-top:20px ">
+            <!--            <button type="button" class="btn btn-info">preview</button>-->
+            <button type="button" class="btn btn-primary">post</button>
+        </div>
+    </div>
+
+</div>

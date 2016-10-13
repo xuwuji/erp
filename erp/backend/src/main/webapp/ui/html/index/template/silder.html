@@ -1,0 +1,35 @@
+<div id="recent-posts-2" class="widget widget_recent_entries" data-widget-id="recent-posts-2">
+    <div class="widget_wrap">
+        <h3 class="widgettitle">Recent Posts</h3>
+        <ul ng-repeat="r in recent">
+            <li>
+                <a href="">{{r.title}}</a>
+            </li>
+        </ul>
+        <span class="widget_corner"></span></div>
+</div>
+<div id="recent-comments-2" class="widget widget_recent_comments" data-widget-id="recent-comments-2">
+    <div class="widget_wrap">
+        <h3 class="widgettitle">Recent Comments</h3>
+        <ul id="recentcomments" ng-repeat="c in comment">
+            <li class="recentcomments"><span class="comment-author-link"><a href='http://go/DNA' rel='external nofollow' class='url'>Ivan</a></span> on <a href="">{{c.title}}</a></li>
+
+        </ul><span class="widget_corner"></span></div>
+</div>
+<div id="archives-2" class="widget widget_archive" data-widget-id="archives-2">
+    <div class="widget_wrap">
+        <h3 class="widgettitle">Archives</h3>
+        <ul ng-repeat="a in archive">
+            <li><a href=''>{{a}}</a></li>
+        </ul>
+        <span class="widget_corner"></span></div>
+</div>
+<div id="categories-2" class="widget widget_categories" data-widget-id="categories-2">
+    <div class="widget_wrap">
+        <h3 class="widgettitle">Categories</h3>
+        <ul ng-repeat="cate in category">
+            <li class="cat-item cat-item-2"><a href="">{{cate}}</a>
+            </li>
+        </ul>
+        <span class="widget_corner"></span></div>
+</div>

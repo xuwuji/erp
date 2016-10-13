@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="newsDao" class="com.xuwuji.db.dao.NewsDao" autowire="byType">
+
+	</bean>
+
+	<bean id="metaDao" class="com.xuwuji.db.dao.MetaDao" autowire="byType">
+	</bean>
+
+	<bean id="userDao" class="com.xuwuji.db.dao.UserDao" autowire="byType">
+	</bean>
+
+
+	<bean id="client" class="com.xuwuji.db.service.QueryService"
+		autowire="byType">
+	</bean>
+</beans>
+
