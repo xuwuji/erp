@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xuwuji.backend.mapper.ERPDataMapper">
+
+	<!--<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" 
+		type="org.mybatis.caches.redis.RedisCache"/> -->
+
+	<resultMap type="ERPData" id="ERPDataResult">
+		<id property="id" column="id"></id>
+		<result property="date" column="date"></result>
+		<result property="mId" column="mId"></result>
+		<result property="mCategory" column="mCategory"></result>
+		<result property="mName" column="mName"></result>
+		<result property="size" column="size"></result>
+		<result property="param" column="param"></result>
+		<result property="buyNum" column="buyNum"></result>
+		<result property="sentNum" column="sentNum"></result>
+		<result property="orderId" column="orderId"></result>
+		<result property="nId" column="nId"></result>
+		<result property="priceNotax" column="priceNotax"></result>
+		<result property="amoutNoTax" column="amoutNoTax"></result>
+		<result property="tax" column="tax"></result>
+		<result property="taxRate" column="taxRate"></result>
+		<result property="total" column="total"></result>
+		<result property="factory" column="factory"></result>
+		<result property="requestDate" column="requestDate"></result>
+	</resultMap>
+
+
+	<insert id="insert" parameterType="hashmap" useGeneratedKeys="true"
+		keyProperty="postId">
+		insert into post
+		(author,title,category,content)values(#{author},#{title},#{category},#{content})
+	</insert>
+
+	<select id="getAll" resultMap="ERPDataResult">
+		select * from data;
+	</select>
+
+	<select id="getMName" resultType="string">
+		select distinct(mName) from
+		data;
+	</select>
+
+	<select id="getMCategory" resultType="string">
+		select distinct(mCategory)
+		from data;
+	</select>
+
+	<select id="getFactory" resultType="string">
+		select distinct(factory) from
+		data;
+	</select>
+
+
+	<select id="getSize" resultType="string">
+		select distinct(size) from data;
+	</select>
+
+	<select id="getParam" resultType="string">
+		select distinct(param) from
+		data;
+	</select>
+
+	<select id="get" resultMap="ERPDataResult" parameterType="hashmap">
+		select * from data
+
+
+		<if test="mCategory!=''">
+			where mCategory in
+
+			<foreach item="mCategory" collection="mCategory" open="("
+				separator="," close=")">
+				#{mCategory}
+			</foreach>
+		</if>
+		<if test="mName!=''">
+			and mName in
+			<foreach item="mName" collection="mName" open="(" separator=","
+				close=")">
+				#{mName}
+			</foreach>
+		</if>
+		<!-- <if test="size!=''"> AND mName in <foreach item="size" collection="size" 
+			open="(" separator="," close=")"> #{size} </foreach> </if> -->
+
+		<if test="size!=''">
+			and size in (${size})
+		</if>
+		<if test="param!=''">
+			AND param in
+			<foreach item="param" collection="param" open="(" separator=","
+				close=")"> #{param} </foreach>
+		</if>
+		<if test="factory!=''">
+			AND factory in
+			<foreach item="factory" collection="factory" open="("
+				separator="," close=")">
+				#{factory}
+			</foreach>
+		</if>
+	</select>
+
+</mapper>

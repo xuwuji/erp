@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="application.properties" />
+
+
+
+	<!-- The default MyBatis global settings, which can be overridden to better 
+		suit application-specific needs -->
+	<settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="true" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="autoMappingBehavior" value="PARTIAL" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+		<setting name="safeRowBoundsEnabled" value="false" />
+		<setting name="mapUnderscoreToCamelCase" value="false" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="jdbcTypeForNull" value="OTHER" />
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode
+   ,toString" />
+	</settings>
+
+	<!-- Instead of giving an alias name for each JavaBeans separately, you 
+		can give the package name where MyBatis can scan and register aliases using 
+		uncapitalized, nonquali ed class names of the Bean. -->
+	<typeAliases>
+		<package name="com.xuwuji.backend.model" />
+	</typeAliases>
+
+	<!-- MyBatis supports configuring multiple dataSource environments so that 
+		deploying the application in various environments, such as DEV, TEST, QA, 
+		UAT, and PRODUCTION, can be easily achieved by changing the default environment 
+		value to the desired environment id value. -->
+
+	<!-- In the preceding configuration, the default environment has been set 
+		to development. When deploying the application on to production servers, 
+		you don't need to change the configuration much; just set the default environment 
+		to the production environment id attribute. -->
+
+	<plugins>
+		<!-- com.github.pagehelper为PageHelper类所在包名 -->
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<!-- 4.0.0以后版本可以不设置该参数 -->
+			<property name="dialect" value="mysql" />
+			<!-- 该参数默认为false -->
+			<!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+			<!-- 和startPage中的pageNum效果一样 -->
+			<property name="offsetAsPageNum" value="true" />
+			<!-- 该参数默认为false -->
+			<!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+			<property name="rowBoundsWithCount" value="true" />
+			<!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+			<!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型） -->
+			<property name="pageSizeZero" value="true" />
+			<!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+			<!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+			<!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+			<property name="reasonable" value="false" />
+			<!-- 3.5.0版本可用 - 为了支持startPage(Object params)方法 -->
+			<!-- 增加了一个`params`参数来配置参数映射，用于从Map或ServletRequest中取值 -->
+			<!-- 可以配置pageNum,pageSize,count,pageSizeZero,reasonable,orderBy,不配置映射的用默认值 -->
+			<!-- 不理解该含义的前提下，不要随便复制该配置 -->
+			<property name="params"
+				value="pageNum=pageHelperStart;pageSize=pageHelperRows;" />
+			<!-- 支持通过Mapper接口参数来传递分页参数 -->
+			<property name="supportMethodsArguments" value="false" />
+			<!-- always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page -->
+			<property name="returnPageInfo" value="none" />
+		</plugin>
+	</plugins>
+
+
+	<environments default="development">
+		<environment id="development">
+			<!-- The JDBC transaction manager is used where the application is responsible 
+				for managing the connection life cycle, that is, commit, rollback, and so 
+				on. When you set the TransactionManager property to JDBC, behind the scenes 
+				MyBatis uses the JdbcTransactionFactory class to create TransactionManager. 
+				For example, an application deployed on Apache Tomcat should manage the transactions 
+				by itself. -->
+			<!-- The MANAGED transaction manager is used where the application server 
+				is responsible for managing the connection life cycle. When you set the TransactionManager 
+				property to MANAGED, behind the scenes MyBatis uses the ManagedTransactionFactory 
+				class to create TransactionManager. For example, a JavaEE application deployed 
+				on an application server, such as JBoss, WebLogic, or GlassFish, can leverage 
+				the application server's transaction management capabilities using EJB. In 
+				these managed environments, you can use the MANAGED transaction manager. -->
+			<transactionManager type="JDBC" />
+			<!-- • If you set the type to UNPOOLED, MyBatis will open a new connection 
+				and close that connection for every database operation. This method can be 
+				used for simple applications that have a small number of concurrent users. 
+				• If you set the type to POOLED, MyBatis will create a pool of database connections, 
+				and one of these connections will be used for the database operation. Once 
+				this is complete, MyBatis will return the connection to the pool. This is 
+				a commonly used method for developing/testing environments. • If you set 
+				the type to JNDI, MyBatis will get the connection from the JNDI dataSource 
+				that has typically been con gured in the application server. This is a preferred 
+				method in production environments. -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+
+		<!-- Sometimes, we may need to work with multiple databases within the 
+			same application. For example, we may have the SHOPPINGCART database to store 
+			all the order details and the REPORTS database to store the aggregates of 
+			the order details for reporting purposes. If your application needs to connect 
+			to multiple databases, you'll need to configure each database as a separate 
+			environment and create a separate SqlSessionFactory object for each database. -->
+
+		<environment id="production">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.prod.driverClassName}" />
+				<property name="url" value="${jdbc.prod.url}" />
+				<property name="username" value="${jdbc.prod.username}" />
+				<property name="password" value="${jdbc.prod.password}" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+	<mappers>
+		<mapper resource="mapper/PostMapper.xml" />
+		<mapper resource="mapper/DataMapper.xml" />
+	</mappers>
+
+
+</configuration>
