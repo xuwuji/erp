@@ -87,9 +87,9 @@
 		<!-- <if test="size!=''"> AND mName in <foreach item="size" collection="size" 
 			open="(" separator="," close=")"> #{size} </foreach> </if> -->
 
-		<if test="size!=''">
+		<!-- <if test="size!=''">
 			and size in (${size})
-		</if>
+		</if> -->
 		<if test="param!=''">
 			AND param in
 			<foreach item="param" collection="param" open="(" separator=","

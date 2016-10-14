@@ -62,37 +62,38 @@ public class ERPDataDao {
 		String end = object.getString("end");
 		String[] mCategory = object.getString("mCategory").split(",");
 		String[] mName = object.getString("mName").split(",");
-		String[] size = URLDecoder.decode(object.getString("size")).split("&");
-		// String[] sizes = sizeO.split(",");
-		String sizeString = "";
-		for (String s : size) {
-			// s = URLDecoder.decode(s).replace("&", ",");
-			//System.out.println(s);
-			s = s.replace("^", " ").replace("\"", "\\\"");
-			sizeString += "'" + s + "',";
-			//System.out.println(sizeString);
-
-			if (s.indexOf(" ") != -1||s.indexOf("\"") != -1) {
-				System.out.println(s + "!!!!!!!");
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		}
-		System.out.println(size.length);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		sizeString = sizeString.substring(0, sizeString.length() - 1);
+		// String[] size =
+		// URLDecoder.decode(object.getString("size")).split("&");
+		// // String[] sizes = sizeO.split(",");
+		// String sizeString = "";
+		// for (String s : size) {
+		// // s = URLDecoder.decode(s).replace("&", ",");
+		// //System.out.println(s);
+		// s = s.replace("^", " ").replace("\"", "\\\"");
+		// sizeString += "'" + s + "',";
+		// //System.out.println(sizeString);
+		//
+		// if (s.indexOf(" ") != -1||s.indexOf("\"") != -1) {
+		// System.out.println(s + "!!!!!!!");
+		// try {
+		// Thread.sleep(1000);
+		// } catch (InterruptedException e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
+		// }
+		// }
+		// System.out.println(size.length);
+		// try {
+		// Thread.sleep(1000);
+		// } catch (InterruptedException e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
+		// sizeString = sizeString.substring(0, sizeString.length() - 1);
 		String[] param = object.getString("param").split(",");
 		String[] factory = object.getString("factory").split(",");
-		System.out.println(sizeString);
+		// System.out.println(sizeString);
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e1) {
@@ -104,7 +105,7 @@ public class ERPDataDao {
 		map.put("end", end);
 		map.put(ERPData.MCATEGORY, mCategory);
 		map.put(ERPData.MNAME, mName);
-		map.put(ERPData.SIZE, sizeString);
+		// map.put(ERPData.SIZE, sizeString);
 		map.put(ERPData.PARAM, param);
 		map.put(ERPData.FACTORY, factory);
 
