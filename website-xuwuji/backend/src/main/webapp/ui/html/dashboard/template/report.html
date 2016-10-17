@@ -9,53 +9,64 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="input-group"> <span class="input-group-btn">
-        <button class="btn btn-default" type="button">材料类型</button>
-      </span>
-            <select selectpicker ng-model="result.mCategory" class="form-control" ng-options="c as c for c in mCategory" toggle multiple data-live-search="true" data-width="300px">
-
+        <div>
+            <label>材料编号:</label>
+            <select selectpicker ng-model="result.mId" class="form-control " ng-options="c as c for c in mId" toggle multiple data-live-search="true" data-width="300px">
             </select>
         </div>
 
     </div>
     <div class="form-group">
-        <div class="input-group"> <span class="input-group-btn">
-        <button class="btn btn-default" type="button">材料名称</button>
-      </span>
+        <div>
+            <label>材料类型:</label>
+            <select selectpicker ng-model="result.mCategory" class="form-control " ng-options="c as c for c in mCategory" toggle multiple data-live-search="true" data-width="300px">
+            </select>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div>
+            <label>材料名称:</label>
+
             <select selectpicker ng-model="result.mName" class="form-control" ng-options="c as c for c in mName" toggle multiple data-live-search="true" data-width="500px">
+            </select>
+
+        </div>
+    </div>
+    <!--
+   <div class="form-group">
+    <div>
+        <label>规格:</label>
+        <select selectpicker ng-model="result.size" class="form-control" ng-options="c as c for c in size" toggle multiple data-live-search="true" data-width="500px" style="position:static">
+
+        </select>
+    </div>
+</div>
+-->
+    <div class="form-group">
+        <div>
+            <label>单位:</label>
+            <select selectpicker ng-model="result.param" class="form-control" ng-options="c as c for c in param" toggle multiple data-live-search="true" data-width="500px" style="position:static">
 
             </select>
         </div>
     </div>
     <div class="form-group">
-        <div class="input-group"> <span class="input-group-btn">
-        <button class="btn btn-default" type="button">规格</button>
-      </span>
-            <select selectpicker ng-model="result.size" class="form-control" ng-options="c as c for c in size" toggle multiple data-live-search="true" data-width="500px">
+        <div>
+            <label>单据编号:</label>
+            <select selectpicker ng-model="result.nId" class="form-control" ng-options="c as c for c in nId" toggle multiple data-live-search="true" data-width="500px" style="position:static">
 
             </select>
         </div>
     </div>
     <div class="form-group">
-        <div class="input-group"> <span class="input-group-btn">
-        <button class="btn btn-default" type="button">单位</button>
-      </span>
-            <select selectpicker ng-model="result.param" class="form-control" ng-options="c as c for c in param" toggle multiple data-live-search="true" data-width="500px">
-
-            </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group"> <span class="input-group-btn">
-        <button class="btn btn-default" type="button">厂商</button>
-      </span>
+        <div>
+            <label>厂商:</label>
             <select selectpicker ng-model="result.factory" class="form-control" ng-options="c as c for c in factory" toggle multiple data-live-search="true" data-width="500px">
 
             </select>
         </div>
     </div>
-
-
     <div>
         <button class="btn btn-primary" type="button" ng-click="apply()">查询</button>
     </div>
@@ -66,25 +77,25 @@
         <div class="input-group"> <span class="input-group-btn">
         <button class="btn btn-default" type="button">不含税单价（总计）</button>
       </span>
-            <input type="text" class="form-control" placeholder="Search for..." ng-model="totalPerPriceNoTax"> </div>
+            <input type="text" class="form-control" placeholder="计算中" ng-model="totalPerPriceNoTax" style="position:static"> </div>
     </div>
     <div class="form-group">
         <div class="input-group"> <span class="input-group-btn">
         <button class="btn btn-default" type="button">不含税金额（总计）</button>
       </span>
-            <input type="text" class="form-control" placeholder="Search for..." ng-model="totalPerAmountNoTax"> </div>
+            <input type="text" class="form-control" placeholder="计算中" ng-model="totalPerAmountNoTax" style="position:static"> </div>
     </div>
     <div class="form-group">
         <div class="input-group"> <span class="input-group-btn">
         <button class="btn btn-default" type="button">税额（总计）</button>
       </span>
-            <input type="text" class="form-control" placeholder="Search for..." ng-model="totalTax"> </div>
+            <input type="text" class="form-control" placeholder="计算中" ng-model="totalTax" style="position:static"> </div>
     </div>
     <div class="form-group">
         <div class="input-group"> <span class="input-group-btn">
         <button class="btn btn-default" type="button">价税统计（总计）</button>
       </span>
-            <input type="text" class="form-control" placeholder="Search for..." ng-model="totalTotalTax"> </div>
+            <input type="text" class="form-control" placeholder="计算中" ng-model="totalTotalTax" style="position:static"> </div>
     </div>
     <input type="text" class="form-control" id="name" placeholder="查找 材料编号／材料类型／材料名称／订单编号／单据编号／厂商" ng-model="search"> </div>
 <table class="table">

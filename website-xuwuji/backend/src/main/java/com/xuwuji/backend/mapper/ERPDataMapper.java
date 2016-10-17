@@ -19,6 +19,10 @@ public interface ERPDataMapper {
 
 	public List<String> getFactory();
 
-	public List<ERPData> get(HashMap<String,Object> map);
+	public List<String> getMId();
+
+	public List<String> getNId();
+
+	public List<ERPData> get(HashMap<String, Object> map);
 
 }

@@ -39,6 +39,10 @@
 	<select id="getAll" resultMap="ERPDataResult">
 		select * from data;
 	</select>
+	<select id="getMId" resultType="string">
+		select distinct(mId) from data;
+	</select>
+
 
 	<select id="getMName" resultType="string">
 		select distinct(mName) from
@@ -65,6 +69,12 @@
 		data;
 	</select>
 
+	<select id="getNId" resultType="string">
+		select distinct(nId) from data;
+	</select>
+
+
+
 	<select id="get" resultMap="ERPDataResult" parameterType="hashmap">
 		select * from data
 
@@ -87,9 +97,7 @@
 		<!-- <if test="size!=''"> AND mName in <foreach item="size" collection="size" 
 			open="(" separator="," close=")"> #{size} </foreach> </if> -->
 
-		<!-- <if test="size!=''">
-			and size in (${size})
-		</if> -->
+		<!-- <if test="size!=''"> and size in (${size}) </if> -->
 		<if test="param!=''">
 			AND param in
 			<foreach item="param" collection="param" open="(" separator=","
@@ -100,6 +108,20 @@
 			<foreach item="factory" collection="factory" open="("
 				separator="," close=")">
 				#{factory}
+			</foreach>
+		</if>
+			<if test="mId!=''">
+			AND mId in
+			<foreach item="mId" collection="mId" open="("
+				separator="," close=")">
+				#{mId}
+			</foreach>
+		</if>
+			<if test="nId!=''">
+			AND nId in
+			<foreach item="nId" collection="nId" open="("
+				separator="," close=")">
+				#{nId}
 			</foreach>
 		</if>
 	</select>

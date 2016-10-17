@@ -34,6 +34,7 @@ dashboardApp.controller('insertController', ['$scope', '$http', function ($scope
         });
     }
 }])
+
 dashboardApp.controller('reportController', ['$scope', '$http', function ($scope, $http) {
     $scope.content = [];
     $scope.totalPerPriceNoTax = 0;
@@ -83,11 +84,13 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
     })
 
     $scope.result = {
+        mId: [],
         mCategory: [],
         mName: [],
         size: [],
         param: [],
-        factory: []
+        factory: [],
+        nId: []
     }
 
     $http({
@@ -97,28 +100,22 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         console.log(response);
         var data = response.data;
         console.log(data);
+        $scope.mId = data.mId;
         $scope.mCategory = data.mCategory;
         $scope.mName = data.mName;
         $scope.size = data.size;
         $scope.param = data.param;
+        $scope.nId = data.nId;
         $scope.factory = data.factory;
-
+        $scope.result.mId = data.mId;
         $scope.result.mCategory = data.mCategory;
         $scope.result.mName = data.mName;
         $scope.result.size = data.size;
         $scope.result.param = data.param;
         $scope.result.factory = data.factory;
+        $scope.result.nId = data.nId;
 
     });
-
-
-
-    //$scope.mCategory = '';
-    //    $scope.mCategory = ['Mustard', 'Ketchup', 'Relish'];
-    //    $scope.mName = [];
-    //    $scope.size = [];
-    //    $scope.param = [];
-    //    $scope.factory = [];
 
     $scope.dateOpts = {
         locale: {
@@ -144,12 +141,14 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
 
 
     $scope.result = {
+        mId: [],
         mCategory: [],
         mName: [],
         size: [],
         param: [],
         factory: [],
-        date: []
+        date: [],
+        nId: []
     }
 
     $scope.result.date = {
@@ -179,9 +178,11 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
             'end': $scope.result.date.endDate.format('YYYY-MM-DD'),
             'mCategory': $scope.result.mCategory.toString(),
             'mName': $scope.result.mName.toString(),
-            'size': encodeURI($scope.result.size.join('&')),
+            //'size': encodeURI($scope.result.size.join('&')),
             "param": $scope.result.param.toString(),
             'factory': $scope.result.factory.toString(),
+            'mId': $scope.result.mId.toString(),
+            'nId': $scope.result.nId.toString()
         };
 
         console.log(request);
@@ -195,6 +196,36 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         }).then(function (response) {
             console.log(response);
             $scope.content = response.data;
+            $scope.totalPerPriceNoTax = 0.0;
+            $scope.totalPerAmountNoTax = 0.0;
+            $scope.totalTax = 0.0;
+            $scope.totalTotalTax = 0.0;
+            for (var i in $scope.content) {
+                //console.log($scope.content[i].priceNotax);
+                //不含税单价
+                var perPrice = parseFloat($scope.content[i].priceNotax.replace(',', '').replace('-', 0));
+                //不含税金额
+                //console.log($scope.content[i].amoutNoTax)
+                var perAmount = parseFloat($scope.content[i].amoutNoTax.replace(',', '').replace('-', 0));
+                //税额
+                var perTax = parseFloat($scope.content[i].tax.replace(',', '').replace('-', 0));
+                //价税统计
+                var perTotal = parseFloat($scope.content[i].total.replace(',', '').replace('-', 0));
+                //console.log(parseFloat(per))
+                //console.log(perAmount)
+                if (!isNaN(perPrice)) {
+                    $scope.totalPerPriceNoTax += perPrice;
+                }
+                if (!isNaN(perAmount)) {
+                    $scope.totalPerAmountNoTax += perAmount;
+                }
+                if (!isNaN(perTax)) {
+                    $scope.totalTax += perTax;
+                }
+                if (!isNaN(perTotal)) {
+                    $scope.totalTotalTax += perTotal;
+                }
+            }
         });
 
 
@@ -205,5 +236,3 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
 
 
             }]);
-
-function parseDouble() {}

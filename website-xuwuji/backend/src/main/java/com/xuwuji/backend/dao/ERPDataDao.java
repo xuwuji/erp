@@ -44,6 +44,8 @@ public class ERPDataDao {
 			map.put("size", mapper.getSize());
 			map.put("param", mapper.getParam());
 			map.put("factory", mapper.getFactory());
+			map.put("mId", mapper.getMId());
+			map.put("nId", mapper.getNId());
 			return map;
 		} catch (Exception e) {
 			System.out.println("exce");
@@ -62,6 +64,8 @@ public class ERPDataDao {
 		String end = object.getString("end");
 		String[] mCategory = object.getString("mCategory").split(",");
 		String[] mName = object.getString("mName").split(",");
+		String[] mId = object.getString("mId").split(",");
+		String[] nId = object.getString("nId").split(",");
 		// String[] size =
 		// URLDecoder.decode(object.getString("size")).split("&");
 		// // String[] sizes = sizeO.split(",");
@@ -108,6 +112,8 @@ public class ERPDataDao {
 		// map.put(ERPData.SIZE, sizeString);
 		map.put(ERPData.PARAM, param);
 		map.put(ERPData.FACTORY, factory);
+		map.put(ERPData.MID, mId);
+		map.put(ERPData.NID, nId);
 
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
