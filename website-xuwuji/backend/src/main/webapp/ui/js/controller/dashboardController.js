@@ -7,6 +7,9 @@ dashboardApp.config(['$routeProvider', '$locationProvider', function ($routeProv
     }).when('/', {
         templateUrl: './template/report.html'
         , controller: 'reportController'
+    }).when('/advance', {
+        templateUrl: './template/advance.html'
+        , controller: 'advanceController'
     })
 }]);
 angular.module('dashboardApp').config(function ($mdDateLocaleProvider) {
@@ -14,6 +17,54 @@ angular.module('dashboardApp').config(function ($mdDateLocaleProvider) {
         return moment(date).format('YYYY-MM-DD');
     };
 });
+dashboardApp.controller('advanceController', ['$scope', '$http', function ($scope, $http) {
+    $scope.$watch('date', function (newVal, oldVal, scope) {
+        console.log('new:' + newVal);
+        console.log('old' + oldVal);
+    })
+    $scope.date = new Date();
+    $scope.requestDate = new Date();
+    $scope.clickPost = function () {
+        $scope.tax = $scope.amoutNoTax * $scope.taxRate;
+        $scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
+        var post_data = {
+            'date': $scope.date
+            , 'mId': $scope.mId
+            , 'mCategory': $scope.mCategory
+            , 'mName': $scope.mName
+            , 'size': $scope.size
+            , 'param': $scope.param
+            , 'buyNum': $scope.buyNum
+            , 'sentNum': $scope.sentNum
+            , 'nId': $scope.nId
+            , 'orderId': $scope.orderId
+            , 'priceNoTax': $scope.priceNoTax
+            , 'amoutNoTax': $scope.amoutNoTax
+            , 'taxRate': $scope.taxRate
+            , 'tax': $scope.tax
+            , 'total': $scope.total
+            , 'factory': $scope.factory
+            , 'requestDate': $scope.requestDate
+        , }
+        var req = {
+            method: 'POST'
+            , url: 'http://localhost:8080/backend/data/insert'
+            , headers: {
+                'Content-Type': 'application/json'
+            }
+            , data: post_data
+        }
+        $http(req).then(function (response) {
+            console.log(response);
+            if (response.data.code != 0) {
+                alert("输入有误，请检查后重新输入");
+            }
+            else {
+                alert("录入成功");
+            }
+        });
+    }
+}])
 dashboardApp.controller('insertController', ['$scope', '$http', function ($scope, $http) {
     $scope.$watch('date', function (newVal, oldVal, scope) {
         console.log('new:' + newVal);
@@ -63,12 +114,16 @@ dashboardApp.controller('insertController', ['$scope', '$http', function ($scope
     }
 }])
 dashboardApp.controller('reportController', ['$scope', '$http', function ($scope, $http) {
+    $scope.loading = true;
+    $scope.show = false;
     $scope.content = [];
     $scope.totalPerPriceNoTax = 0;
     $http({
         method: 'GET'
         , url: 'http://localhost:8080/backend/data/all'
     }).then(function (response) {
+        $scope.loading = false;
+        $scope.show = true;
         console.log(response);
         $scope.content = response.data;
         var total = 0.0;
@@ -175,15 +230,17 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         , endDate: moment()
     }
     $scope.apply = function () {
+        $scope.loading = true;
+        $scope.show = false;
         // console.log($scope.result.date.startDate.format('YYYY-MM-DD'));
         //console.log($scope.result.mCategory.toString());
-        console.log(encodeURI($scope.result.size.toString()));
+        //console.log(encodeURI($scope.result.size.toString()));
         //
         for (var i in $scope.result.size) {
             //            //console.log($scope.result.size[i]);
             $scope.result.size[i] = $scope.result.size[i].replace(' ', '^');
             //            if ($scope.result.size[i].indexOf('，')) {
-            console.log($scope.result.size[i]);
+            //console.log($scope.result.size[i]);
             //            }
             //            $scope.result.size[i] = $scope.result.size[i].replace('，', '^');
             //            //console.log($scope.result.size[i]);
@@ -208,6 +265,8 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
             , data: request
         }).then(function (response) {
             console.log(response);
+            $scope.loading = false;
+            $scope.show = true;
             $scope.content = response.data;
             $scope.totalPerPriceNoTax = 0.0;
             $scope.totalPerAmountNoTax = 0.0;
@@ -216,7 +275,7 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
             for (var i in $scope.content) {
                 //console.log($scope.content[i].priceNotax);
                 //不含税单价
-                var perPrice = parseFloat($scope.content[i].priceNotax.replace(',', '').replace('-', 0));
+                var perPrice = parseFloat($scope.content[i].priceNoTax.replace(',', '').replace('-', 0));
                 //不含税金额
                 //console.log($scope.content[i].amoutNoTax)
                 var perAmount = parseFloat($scope.content[i].amoutNoTax.replace(',', '').replace('-', 0));

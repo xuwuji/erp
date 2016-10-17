@@ -1,7 +1,6 @@
 <div class="lay4_wrap">
     <br>
     <br>
-  
     <div class="lay4_inner">
         <!--    {{result}}-->{{result.date}}
         <div class="form-group">
@@ -86,7 +85,8 @@
                 <input type="text" class="form-control" placeholder="计算中" ng-model="totalTotalTax" style="position:static"> </div>
         </div>
         <input type="text" class="form-control" id="name" placeholder="查找 材料编号／材料类型／材料名称／订单编号／单据编号／厂商" ng-model="search"> </div>
-    <table class="table">
+    <div ng-if="loading" class="mask" style="height:300px; text-align:center"> <img src="../../../resources/img/ajax-loader.gif" width="300" height="300"> </div>
+    <table class="table" ng-if="show">
         <thead>
             <tr>
                 <th>日期</th>
@@ -120,7 +120,7 @@
                 <td>{{record.sentNum}}</td>
                 <td>{{record.orderId}}</td>
                 <td>{{record.nId}}</td>
-                <td>{{record.priceNotax}}</td>
+                <td>{{record.priceNoTax}}</td>
                 <td>{{record.amoutNoTax}}</td>
                 <td>{{record.tax}}</td>
                 <td>{{record.taxRate}}</td>
