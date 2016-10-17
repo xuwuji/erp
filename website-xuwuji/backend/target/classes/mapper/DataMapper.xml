@@ -20,7 +20,7 @@
 		<result property="sentNum" column="sentNum"></result>
 		<result property="orderId" column="orderId"></result>
 		<result property="nId" column="nId"></result>
-		<result property="priceNotax" column="priceNotax"></result>
+		<result property="priceNoTax" column="priceNoTax"></result>
 		<result property="amoutNoTax" column="amoutNoTax"></result>
 		<result property="tax" column="tax"></result>
 		<result property="taxRate" column="taxRate"></result>
@@ -28,13 +28,6 @@
 		<result property="factory" column="factory"></result>
 		<result property="requestDate" column="requestDate"></result>
 	</resultMap>
-
-
-	<insert id="insert" parameterType="hashmap" useGeneratedKeys="true"
-		keyProperty="postId">
-		insert into post
-		(author,title,category,content)values(#{author},#{title},#{category},#{content})
-	</insert>
 
 	<select id="getAll" resultMap="ERPDataResult">
 		select * from data;
@@ -110,20 +103,27 @@
 				#{factory}
 			</foreach>
 		</if>
-			<if test="mId!=''">
+		<if test="mId!=''">
 			AND mId in
-			<foreach item="mId" collection="mId" open="("
-				separator="," close=")">
+			<foreach item="mId" collection="mId" open="(" separator=","
+				close=")">
 				#{mId}
 			</foreach>
 		</if>
-			<if test="nId!=''">
+		<if test="nId!=''">
 			AND nId in
-			<foreach item="nId" collection="nId" open="("
-				separator="," close=")">
+			<foreach item="nId" collection="nId" open="(" separator=","
+				close=")">
 				#{nId}
 			</foreach>
 		</if>
 	</select>
+
+	<insert id="insert" parameterType="hashmap" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into data
+		(date,mId,mCategory,mName,size,param,buyNum,sentNum,orderId,nId,priceNoTax,amoutNoTax,tax,taxRate,total,factory,requestDate)
+		values(#{date},#{mId},#{mCategory},#{mName},#{size},#{param},#{buyNum},#{sentNum},#{orderId},#{nId},#{priceNoTax},#{amoutNoTax},#{tax},#{taxRate},#{total},#{factory},#{requestDate});
+	</insert>
 
 </mapper>

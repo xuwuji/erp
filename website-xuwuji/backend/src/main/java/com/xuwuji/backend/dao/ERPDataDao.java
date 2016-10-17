@@ -6,13 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.xuwuji.backend.mapper.ERPDataMapper;
+import com.xuwuji.backend.mapper.PostMapper;
 import com.xuwuji.backend.model.ERPData;
 import com.xuwuji.backend.util.SessionFactory;
+import com.xuwuji.backend.util.TimeUtil;
 
 @Service
 public class ERPDataDao {
@@ -125,6 +128,41 @@ public class ERPDataDao {
 			e.printStackTrace();
 			session.rollback();
 			return null;
+		} finally {
+			System.out.println("close");
+			session.close();
+		}
+	}
+
+	public void insert(String json) throws JSONException {
+		JSONObject object = new JSONObject(json);
+		ERPData data = new ERPData();
+		data.setDate(TimeUtil.getSimpleDateTime(new DateTime(object.getString(ERPData.DATE))));
+		data.setmId(object.getString(ERPData.MID));
+		data.setnId(object.getString(ERPData.NID));
+		data.setmName(object.getString(ERPData.MNAME));
+		data.setmCategory(object.getString(ERPData.MCATEGORY));
+		data.setSize(object.getString(ERPData.SIZE));
+		data.setParam(object.getString(ERPData.PARAM));
+		data.setBuyNum(Integer.valueOf(object.getString(ERPData.BUYNUM)));
+		data.setSentNum(object.getString(ERPData.SENTNUM));
+		data.setFactory(object.getString(ERPData.FACTORY));
+		data.setTax(String.valueOf(object.getDouble(ERPData.TAX)));
+		data.setTaxRate(object.getString(ERPData.TAXRATE));
+		data.setTotal(String.valueOf(object.getDouble(ERPData.TOTAL)));
+		data.setPriceNoTax(object.getString(ERPData.PRICENOTAX));
+		data.setAmoutNoTax(object.getString(ERPData.AMOUNTNOTAX));
+		data.setOrderId(object.getString(ERPData.ORDERID));
+		data.setRequestDate(TimeUtil.getSimpleDateTime(new DateTime(object.getString(ERPData.REQUESTDATE))));
+		SqlSession session = SessionFactory.openDEVSession();
+		try {
+			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
+			mapper.insert(data);
+			session.commit();
+		} catch (Exception e) {
+			System.out.println("exce");
+			e.printStackTrace();
+			session.rollback();
 		} finally {
 			System.out.println("close");
 			session.close();

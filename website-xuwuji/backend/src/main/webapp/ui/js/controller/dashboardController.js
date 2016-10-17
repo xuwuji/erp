@@ -1,46 +1,73 @@
-var dashboardApp = angular.module('dashboardApp', ['ngRoute', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile', 'angular-bootstrap-select', 'daterangepicker']);
+var dashboardApp = angular.module('dashboardApp', ['ngMaterial', 'ngMessages', 'ngRoute', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile', 'angular-bootstrap-select', 'daterangepicker']);
 dashboardApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider.
     when('/insert', {
-        templateUrl: './template/insert.html',
-        controller: 'insertController'
+        templateUrl: './template/insert.html'
+        , controller: 'insertController'
     }).when('/', {
-        templateUrl: './template/report.html',
-        controller: 'reportController'
+        templateUrl: './template/report.html'
+        , controller: 'reportController'
     })
 }]);
+angular.module('dashboardApp').config(function ($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function (date) {
+        return moment(date).format('YYYY-MM-DD');
+    };
+});
 dashboardApp.controller('insertController', ['$scope', '$http', function ($scope, $http) {
-    $scope.$watch('title', function (newVal, oldVal, scope) {
+    $scope.$watch('date', function (newVal, oldVal, scope) {
         console.log('new:' + newVal);
         console.log('old' + oldVal);
     })
+    $scope.date = new Date();
+    $scope.requestDate = new Date();
     $scope.clickPost = function () {
+        $scope.tax = $scope.amoutNoTax * $scope.taxRate;
+        $scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
         var post_data = {
-            'title': $scope.title,
-            'author': $scope.author,
-            'category': $scope.category,
-            'content': $scope.content
-        }
+            'date': $scope.date
+            , 'mId': $scope.mId
+            , 'mCategory': $scope.mCategory
+            , 'mName': $scope.mName
+            , 'size': $scope.size
+            , 'param': $scope.param
+            , 'buyNum': $scope.buyNum
+            , 'sentNum': $scope.sentNum
+            , 'nId': $scope.nId
+            , 'orderId': $scope.orderId
+            , 'priceNoTax': $scope.priceNoTax
+            , 'amoutNoTax': $scope.amoutNoTax
+            , 'taxRate': $scope.taxRate
+            , 'tax': $scope.tax
+            , 'total': $scope.total
+            , 'factory': $scope.factory
+            , 'requestDate': $scope.requestDate
+        , }
         var req = {
-            method: 'POST',
-            url: 'http://localhost:8080/backend/post/insert',
-            headers: {
+            method: 'POST'
+            , url: 'http://localhost:8080/backend/data/insert'
+            , headers: {
                 'Content-Type': 'application/json'
-            },
-            data: post_data
+            }
+            , data: post_data
         }
         $http(req).then(function (response) {
             console.log(response);
+            if (response.data.code != 0) {
+                alert("输入有误，请检查后重新输入");
+            }
+            else {
+                alert("录入成功");
+            }
         });
     }
 }])
-
 dashboardApp.controller('reportController', ['$scope', '$http', function ($scope, $http) {
     $scope.content = [];
     $scope.totalPerPriceNoTax = 0;
     $http({
-        method: 'GET',
-        url: 'http://localhost:8080/backend/data/all'
+        method: 'GET'
+        , url: 'http://localhost:8080/backend/data/all'
     }).then(function (response) {
         console.log(response);
         $scope.content = response.data;
@@ -51,7 +78,7 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         for (var i in $scope.content) {
             //console.log($scope.content[i].priceNotax);
             //不含税单价
-            var perPrice = parseFloat($scope.content[i].priceNotax.replace(',', '').replace('-', 0));
+            var perPrice = parseFloat($scope.content[i].priceNoTax.replace(',', '').replace('-', 0));
             //不含税金额
             //console.log($scope.content[i].amoutNoTax)
             var perAmount = parseFloat($scope.content[i].amoutNoTax.replace(',', '').replace('-', 0));
@@ -82,20 +109,18 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         //console.log('new:' + newVal);
         //console.log('old:' + oldVal);
     })
-
     $scope.result = {
-        mId: [],
-        mCategory: [],
-        mName: [],
-        size: [],
-        param: [],
-        factory: [],
-        nId: []
+        mId: []
+        , mCategory: []
+        , mName: []
+        , size: []
+        , param: []
+        , factory: []
+        , nId: []
     }
-
     $http({
-        method: 'GET',
-        url: 'http://localhost:8080/backend/data/info'
+        method: 'GET'
+        , url: 'http://localhost:8080/backend/data/info'
     }).then(function (response) {
         console.log(response);
         var data = response.data;
@@ -114,53 +139,44 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         $scope.result.param = data.param;
         $scope.result.factory = data.factory;
         $scope.result.nId = data.nId;
-
     });
-
     $scope.dateOpts = {
         locale: {
-            applyClass: 'btn-green',
-            applyLabel: "确定",
-            fromLabel: "起",
-            toLabel: "止",
-            cancelLabel: '取消',
-            customRangeLabel: '自定义起止日期',
-            daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-            firstDay: 1,
-            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月',
-                '十月', '十一月', '十二月'
+            applyClass: 'btn-green'
+            , applyLabel: "确定"
+            , fromLabel: "起"
+            , toLabel: "止"
+            , cancelLabel: '取消'
+            , customRangeLabel: '自定义起止日期'
+            , daysOfWeek: ['日', '一', '二', '三', '四', '五', '六']
+            , firstDay: 1
+            , monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月'
+                , '十月', '十一月', '十二月'
             ]
-        },
-        ranges: {
-            '过去一周': [moment().subtract(6, 'days'), moment()],
-            '过去三十天': [moment().subtract(29, 'days'), moment()],
-            '过去九十天': [moment().subtract(89, 'days'), moment()]
+        }
+        , ranges: {
+            '过去一周': [moment().subtract(6, 'days'), moment()]
+            , '过去三十天': [moment().subtract(29, 'days'), moment()]
+            , '过去九十天': [moment().subtract(89, 'days'), moment()]
         }
     };
-
-
-
     $scope.result = {
-        mId: [],
-        mCategory: [],
-        mName: [],
-        size: [],
-        param: [],
-        factory: [],
-        date: [],
-        nId: []
+        mId: []
+        , mCategory: []
+        , mName: []
+        , size: []
+        , param: []
+        , factory: []
+        , date: []
+        , nId: []
     }
-
     $scope.result.date = {
-        startDate: moment().subtract(7, "days"),
-        endDate: moment()
+        startDate: moment().subtract(7, "days")
+        , endDate: moment()
     }
-
     $scope.apply = function () {
         // console.log($scope.result.date.startDate.format('YYYY-MM-DD'));
         //console.log($scope.result.mCategory.toString());
-
-
         console.log(encodeURI($scope.result.size.toString()));
         //
         for (var i in $scope.result.size) {
@@ -172,27 +188,24 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
             //            $scope.result.size[i] = $scope.result.size[i].replace('，', '^');
             //            //console.log($scope.result.size[i]);
         }
-
         var request = {
-            'from': $scope.result.date.startDate.format('YYYY-MM-DD'),
-            'end': $scope.result.date.endDate.format('YYYY-MM-DD'),
-            'mCategory': $scope.result.mCategory.toString(),
-            'mName': $scope.result.mName.toString(),
-            //'size': encodeURI($scope.result.size.join('&')),
-            "param": $scope.result.param.toString(),
-            'factory': $scope.result.factory.toString(),
-            'mId': $scope.result.mId.toString(),
-            'nId': $scope.result.nId.toString()
+            'from': $scope.result.date.startDate.format('YYYY-MM-DD')
+            , 'end': $scope.result.date.endDate.format('YYYY-MM-DD')
+            , 'mCategory': $scope.result.mCategory.toString()
+            , 'mName': $scope.result.mName.toString(), //'size': encodeURI($scope.result.size.join('&')),
+            "param": $scope.result.param.toString()
+            , 'factory': $scope.result.factory.toString()
+            , 'mId': $scope.result.mId.toString()
+            , 'nId': $scope.result.nId.toString()
         };
-
         console.log(request);
         $http({
-            method: 'Post',
-            url: 'http://localhost:8080/backend/data/get',
-            headers: {
+            method: 'Post'
+            , url: 'http://localhost:8080/backend/data/get'
+            , headers: {
                 'Content-Type': 'application/json'
-            },
-            data: request
+            }
+            , data: request
         }).then(function (response) {
             console.log(response);
             $scope.content = response.data;
@@ -227,12 +240,5 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
                 }
             }
         });
-
-
     }
-
-
-
-
-
             }]);

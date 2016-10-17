@@ -25,4 +25,6 @@ public interface ERPDataMapper {
 
 	public List<ERPData> get(HashMap<String, Object> map);
 
+	public void insert(ERPData data);
+
 }

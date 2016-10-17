@@ -1,22 +1,76 @@
 <div class="lay4_wrap" ng-controller="insertController">
     <div class="lay4_inner">
-        <div class="input-group"> <span class="input-group-addon">Title: </span>
-            <input type="text" class="form-control" ng-model="title" /> </div>
         <br>
-        <div class="input-group"> <span class="input-group-addon"> Category:</span>
-            <input type="text" class="form-control" ng-model="category" /> </div>
         <br>
-        <div class="input-group"> <span class="input-group-addon"> Author:</span>
-            <input type="text" class="form-control" ng-model="author" /> </div>
         <br>
-        <div>{{title}}</div>
-        <div>{{category}}</div>
-        <div>{{author}}</div>
-        <div bind-html-compile="content"></div>
-        <div ckeditor="options" ng-model="content" ready="onReady()"></div>
+        <br>
+        <br>
+        <md-content layout-padding="">
+            <form name="dataForm">
+                <div flex-gt-xs>
+                    <label>日期:</label>
+                    <md-datepicker ng-model="date" md-placeholder="Enter date"></md-datepicker>
+                </div>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>材料编号</label>
+                    <input ng-model="mId" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>材料类型</label>
+                    <input ng-model="mCategory" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>材料名称</label>
+                    <input ng-model="mName" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>规格</label>
+                    <input name="size" ng-model="size" required="" ng-trim="true"> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>单位</label>
+                    <input ng-model="param" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>购入数</label>
+                    <input ng-model="buyNum" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>发出数量</label>
+                    <input ng-model="sentNum" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>订单编号</label>
+                    <input ng-model="orderId" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>单据编号</label>
+                    <input ng-model="nId" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>不含税单价</label>
+                    <input ng-model="priceNoTax" required=""> </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>不含税金额</label>
+                    <input name="amoutNoTax" ng-model="amoutNoTax" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+                    <div ng-messages="dataForm.amoutNoTax.$error">
+                        <div ng-message="pattern">请输入正确的数字</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>税率</label>
+                    <input name="taxRate" ng-model="taxRate" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+                    <div ng-messages="dataForm.taxRate.$error">
+                        <div ng-message="pattern">请输入正确的数字</div>
+                    </div>
+                </md-input-container>
+                <div>
+                    <label>税额:</label>{{amoutNoTax*(taxRate)|number}}</div>
+                <div>
+                    <label>价格统计:</label>{{amoutNoTax*((taxRate-0)+1)}}</div>
+                <div flex-gt-xs>
+                    <label>申请付款日期:</label>
+                    <md-datepicker ng-model="requestDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>厂商</label>
+                    <input ng-model="factory" required=""> </md-input-container>
+            </form>
+        </md-content>
         <div style=" width: 25%;margin: 0 auto;padding-top:20px ">
             <!--            <button type="button" class="btn btn-info">preview</button>-->
-            <button type="button" class="btn btn-primary" ng-click="clickPost()">post</button>
+            <button type="button" class="btn btn-primary" ng-click="clickPost()">确认</button>
         </div>
     </div>
 </div>

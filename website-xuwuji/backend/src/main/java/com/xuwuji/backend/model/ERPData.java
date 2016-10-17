@@ -12,7 +12,8 @@ public class ERPData {
 	private String sentNum;
 	private String orderId;
 	private String nId;
-	private String priceNotax;
+	private String priceNoTax;
+
 	private String amoutNoTax;
 	private String tax;
 	private String taxRate;
@@ -28,10 +29,10 @@ public class ERPData {
 	public static final String SIZE = "size";
 	public static final String PARAM = "param";
 	public static final String BUYNUM = "buyNum";
-	public static final String SENDNUM = "sentNum";
+	public static final String SENTNUM = "sentNum";
 	public static final String ORDERID = "orderId";
 	public static final String NID = "nId";
-	public static final String PRICENOTAX = "priceNotax";
+	public static final String PRICENOTAX = "priceNoTax";
 	public static final String AMOUNTNOTAX = "amoutNoTax";
 	public static final String TAX = "tax";
 	public static final String TAXRATE = "taxRate";
@@ -127,12 +128,12 @@ public class ERPData {
 		this.nId = nId;
 	}
 
-	public String getPriceNotax() {
-		return priceNotax;
+	public String getPriceNoTax() {
+		return priceNoTax;
 	}
 
-	public void setPriceNotax(String priceNotax) {
-		this.priceNotax = priceNotax;
+	public void setPriceNoTax(String priceNoTax) {
+		this.priceNoTax = priceNoTax;
 	}
 
 	public String getAmoutNoTax() {
@@ -187,7 +188,7 @@ public class ERPData {
 	public String toString() {
 		return "ERPData [id=" + id + ", date=" + date + ", mId=" + mId + ", mCategory=" + mCategory + ", mName=" + mName
 				+ ", size=" + size + ", param=" + param + ", buyNum=" + buyNum + ", sentNum=" + sentNum + ", orderId="
-				+ orderId + ", nId=" + nId + ", priceNotax=" + priceNotax + ", amoutNoTax=" + amoutNoTax + ", tax="
+				+ orderId + ", nId=" + nId + ", priceNoTax=" + priceNoTax + ", amoutNoTax=" + amoutNoTax + ", tax="
 				+ tax + ", taxRate=" + taxRate + ", total=" + total + ", factory=" + factory + ", requestDate="
 				+ requestDate + "]";
 	}
