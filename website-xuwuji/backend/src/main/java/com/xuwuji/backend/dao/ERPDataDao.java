@@ -121,7 +121,7 @@ public class ERPDataDao {
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
 			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
-			System.out.println(mapper.get(map));
+			//System.out.println(mapper.get(map));
 			return mapper.get(map);
 		} catch (Exception e) {
 			System.out.println("exce");
