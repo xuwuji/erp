@@ -1,4 +1,9 @@
 var dashboardApp = angular.module('dashboardApp', ['ngMaterial', 'ngMessages', 'ngRoute', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile', 'angular-bootstrap-select', 'daterangepicker', 'highcharts-ng']);
+dashboardApp.config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }
+]);
 dashboardApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider.
     when('/insert', {
@@ -193,21 +198,34 @@ dashboardApp.controller('advanceController', ['$scope', '$http', function ($scop
         , "size": {}
     };
 }])
-dashboardApp.controller('insertController', ['$scope', '$http', function ($scope, $http) {
+dashboardApp.controller('insertController', ['$scope', '$http', 'infoService', function ($scope, $http, infoService) {
     $scope.$watch('date', function (newVal, oldVal, scope) {
-        console.log('new:' + newVal);
-        console.log('old' + oldVal);
+        //console.log('new:' + newVal);
+        //console.log('old' + oldVal);
     })
     $scope.date = new Date();
     $scope.requestDate = new Date();
-    $scope.clickPost = function () {
+    $scope.factories = [];
+    $scope.mCategories = [];
+    $scope.mNames = [];
+    // Load all info for initial input
+    infoService.loadAll().then(function (response) {
+        //console.log(response.data);
+        $scope.factories = [].concat(response.data.factory);
+        $scope.mCategories = [].concat(response.data.mCategory);
+        $scope.mNames = [].concat(response.data.mName);
+    });
+    $scope.clickPost = function (scope) {
+        //        console.log($scope.factoryInput);
+        //         console.log($scope.mCategoryInput);
+        //         console.log($scope.mNameInput);
         $scope.tax = $scope.amoutNoTax * $scope.taxRate;
         $scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
         var post_data = {
             'date': $scope.date
             , 'mId': $scope.mId
-            , 'mCategory': $scope.mCategory
-            , 'mName': $scope.mName
+            , 'mCategory': $scope.mCategoryInput
+            , 'mName': $scope.mNameInput
             , 'size': $scope.size
             , 'param': $scope.param
             , 'buyNum': $scope.buyNum
@@ -219,7 +237,7 @@ dashboardApp.controller('insertController', ['$scope', '$http', function ($scope
             , 'taxRate': $scope.taxRate
             , 'tax': $scope.tax
             , 'total': $scope.total
-            , 'factory': $scope.factory
+            , 'factory': $scope.factoryInput
             , 'requestDate': $scope.requestDate
         , }
         var req = {

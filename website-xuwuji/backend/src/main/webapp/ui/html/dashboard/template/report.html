@@ -1,8 +1,9 @@
 <div class="lay4_wrap">
     <br>
     <br>
+    <br>
     <div class="lay4_inner">
-        <!--    {{result}}-->{{result.date}}
+        <!--            {{result}}{{result.date}}-->
         <div class="form-group">
             <div class="input-group"> <span class="input-group-btn">
         <button class="btn btn-default" type="button">日期</button>
@@ -85,50 +86,54 @@
                 <input type="text" class="form-control" placeholder="计算中" ng-model="totalTotalTax" style="position:static"> </div>
         </div>
         <input type="text" class="form-control" id="name" placeholder="查找 材料编号／材料类型／材料名称／订单编号／单据编号／厂商" ng-model="search"> </div>
-    <div ng-if="loading" class="mask" style="height:300px; text-align:center"> <img src="../../../resources/img/ajax-loader.gif" width="300" height="300"> </div>
-    <table class="table" ng-if="show">
-        <thead>
-            <tr>
-                <th>日期</th>
-                <th>材料编号</th>
-                <th>材料类型</th>
-                <th>材料名称</th>
-                <th>规格</th>
-                <th>单位</th>
-                <th>购入数</th>
-                <th>发出数量</th>
-                <th>订单编号</th>
-                <th>单据编号</th>
-                <th>不含税单价</th>
-                <th>不含税金额</th>
-                <th>税额</th>
-                <th>税率</th>
-                <th>价税统计</th>
-                <th>厂商</th>
-                <th>申请付款日期</th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="record in content|filter:search">
-            <tr>
-                <td>{{record.date}}</td>
-                <td>{{record.mId}}</td>
-                <td>{{record.mCategory}}</td>
-                <td>{{record.mName}}</td>
-                <td>{{record.size}}</td>
-                <td>{{record.param}}</td>
-                <td>{{record.buyNum}}</td>
-                <td>{{record.sentNum}}</td>
-                <td>{{record.orderId}}</td>
-                <td>{{record.nId}}</td>
-                <td>{{record.priceNoTax}}</td>
-                <td>{{record.amoutNoTax}}</td>
-                <td>{{record.tax}}</td>
-                <td>{{record.taxRate}}</td>
-                <td>{{record.total}}</td>
-                <td>{{record.factory}}</td>
-                <td>{{record.requestDate}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <!--    <div ng-if="loading" class="mask" style="height:300px; text-align:center"> <img src="../../../resources/img/ajax-loader.gif" width="300" height="300"> </div>-->
+    <div ng-if="loading" layout="row" layout-sm="column" layout-align="space-around" style="height:300px; text-align:center;margin-top:100px">
+        <md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>
+    </div>
+    <div class="lay4_inner">
+        <table class="table" ng-if="show">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>材料编号</th>
+                    <th>材料类型</th>
+                    <th>材料名称</th>
+                    <th>规格</th>
+                    <th>单位</th>
+                    <th>购入数</th>
+                    <th>发出数量</th>
+                    <th>订单编号</th>
+                    <th>单据编号</th>
+                    <th>不含税单价</th>
+                    <th>不含税金额</th>
+                    <th>税额</th>
+                    <th>税率</th>
+                    <th>价税统计</th>
+                    <th>厂商</th>
+                    <th>申请付款日期</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="record in content|filter:search">
+                <tr>
+                    <td>{{record.date}}</td>
+                    <td>{{record.mId}}</td>
+                    <td>{{record.mCategory}}</td>
+                    <td>{{record.mName}}</td>
+                    <td>{{record.size}}</td>
+                    <td>{{record.param}}</td>
+                    <td>{{record.buyNum}}</td>
+                    <td>{{record.sentNum}}</td>
+                    <td>{{record.orderId}}</td>
+                    <td>{{record.nId}}</td>
+                    <td>{{record.priceNoTax}}</td>
+                    <td>{{record.amoutNoTax}}</td>
+                    <td>{{record.tax}}</td>
+                    <td>{{record.taxRate}}</td>
+                    <td>{{record.total}}</td>
+                    <td>{{record.factory}}</td>
+                    <td>{{record.requestDate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

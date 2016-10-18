@@ -5,21 +5,44 @@
         <br>
         <br>
         <br>
-        <md-content layout-padding="">
+        <md-content layout-padding="" style="background-color:white">
             <form name="dataForm">
                 <div flex-gt-xs>
                     <label>日期:</label>
                     <md-datepicker ng-model="date" md-placeholder="Enter date"></md-datepicker>
                 </div>
+                <div flex-gt-xs>
+                    <label>申请付款日期:</label>
+                    <md-datepicker ng-model="requestDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>材料编号</label>
                     <input ng-model="mId" required=""> </md-input-container>
+                <!--
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>材料类型</label>
                     <input ng-model="mCategory" required=""> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>材料名称</label>
-                    <input ng-model="mName" required=""> </md-input-container>
+-->
+                <md-autocomplete ng-disabled="insertController.isDisabled" md-no-cache="insertController.noCache" md-selected-item="mCategorySelected" md-search-text="mCategoryInput" md-items="item in mCategories| filter:mCategoryInput" md-item-text="item" md-min-length="0" placeholder="材料类型">
+                    <md-item-template> <span md-highlight-text="mCategoryInput" md-highlight-flags="^i">{{item}}</span> </md-item-template>
+                    <md-not-found> 没有 "{{mCategoryInput}}" 相关记录</md-not-found>
+                </md-autocomplete>
+                <br>
+                <!--
+          <md-input-container class="md-block" flex-gt-sm="">
+    <label>材料名称</label>
+    <input ng-model="mName" required=""> </md-input-container>
+-->
+                <md-autocomplete ng-disabled="insertController.isDisabled" md-no-cache="insertController.noCache" md-selected-item="mNameselected" md-search-text="mNameInput" md-items="item in mNames| filter:mNameInput" md-item-text="item" md-min-length="0" placeholder="材料名称">
+                    <md-item-template> <span md-highlight-text="mNameInput" md-highlight-flags="^i">{{item}}</span> </md-item-template>
+                    <md-not-found> 没有 "{{mNameInput}}" 相关记录</md-not-found>
+                </md-autocomplete>
+                <br>
+                <md-autocomplete ng-disabled="insertController.isDisabled" md-no-cache="insertController.noCache" md-selected-item="factoryInputselected" md-search-text="factoryInput" md-items="item in factories| filter:factoryInput" md-item-text="item" md-min-length="0" placeholder="厂商">
+                    <md-item-template> <span md-highlight-text="insertController.searchText" md-highlight-flags="^i">{{item}}</span> </md-item-template>
+                    <md-not-found> 没有 "{{factoryInput}}" 相关记录</md-not-found>
+                </md-autocomplete>
+                <br>
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>规格</label>
                     <input name="size" ng-model="size" required="" ng-trim="true"> </md-input-container>
@@ -40,7 +63,11 @@
                     <input ng-model="nId" required=""> </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>不含税单价</label>
-                    <input ng-model="priceNoTax" required=""> </md-input-container>
+                    <input ng-model="priceNoTax" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+                    <div ng-messages="dataForm.priceNoTax.$error">
+                        <div ng-message="pattern">请输入正确的数字</div>
+                    </div>
+                </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>不含税金额</label>
                     <input name="amoutNoTax" ng-model="amoutNoTax" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
@@ -57,15 +84,14 @@
                 </md-input-container>
                 <div>
                     <label>税额:</label>{{amoutNoTax*(taxRate)|number}}</div>
+                <br>
                 <div>
                     <label>价格统计:</label>{{amoutNoTax*((taxRate-0)+1)}}</div>
-                <div flex-gt-xs>
-                    <label>申请付款日期:</label>
-                    <md-datepicker ng-model="requestDate" md-placeholder="Enter date"></md-datepicker>
-                </div>
+                <!--
                 <md-input-container class="md-block" flex-gt-sm="">
-                    <label>厂商</label>
-                    <input ng-model="factory" required=""> </md-input-container>
+    <label>厂商</label>
+    <input ng-model="factory" required=""> </md-input-container>
+-->
             </form>
         </md-content>
         <div style=" width: 25%;margin: 0 auto;padding-top:20px ">

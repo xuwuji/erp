@@ -170,7 +170,7 @@ public class ERPDataDao {
 	}
 
 	public static void main(String[] args) {
-		ERPDataDao dao = new ERPDataDao();
-		dao.getAll();
+		// ERPDataDao dao = new ERPDataDao();
+		// dao.getAll();
 	}
 }
