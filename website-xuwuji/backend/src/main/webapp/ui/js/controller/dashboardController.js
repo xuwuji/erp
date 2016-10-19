@@ -1,27 +1,22 @@
-var dashboardApp = angular.module('dashboardApp', ['ngMaterial', 'ngMessages', 'ngRoute', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile', 'angular-bootstrap-select', 'daterangepicker', 'highcharts-ng']);
-dashboardApp.config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.useXDomain = true;
-        delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    }
-]);
-dashboardApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-    $routeProvider.
-    when('/insert', {
-        templateUrl: './template/insert.html'
-        , controller: 'insertController'
-    }).when('/', {
-        templateUrl: './template/report.html'
-        , controller: 'reportController'
-    }).when('/advance', {
-        templateUrl: './template/advance.html'
-        , controller: 'advanceController'
-    })
-}]);
-angular.module('dashboardApp').config(function ($mdDateLocaleProvider) {
-    $mdDateLocaleProvider.formatDate = function (date) {
-        return moment(date).format('YYYY-MM-DD');
-    };
-});
+//var dashboardApp = angular.module('dashboardApp', ['ngMaterial', 'ngMessages', 'ngRoute', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile', 'angular-bootstrap-select', 'daterangepicker', 'highcharts-ng']);
+//dashboardApp.config(['$httpProvider', function ($httpProvider) {
+//        $httpProvider.defaults.useXDomain = true;
+//        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+//    }
+//]);
+//dashboardApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+//    $routeProvider.
+//    when('/insert', {
+//        templateUrl: './template/insert.html'
+//        , controller: 'insertController'
+//    }).when('/', {
+//        templateUrl: './template/report.html'
+//        , controller: 'reportController'
+//    }).when('/advance', {
+//        templateUrl: './template/advance.html'
+//        , controller: 'advanceController'
+//    })
+//}]);
 dashboardApp.controller('advanceController', ['$scope', '$http', function ($scope, $http) {
     $scope.chartConfig = {
         options: {
@@ -198,67 +193,6 @@ dashboardApp.controller('advanceController', ['$scope', '$http', function ($scop
         , "size": {}
     };
 }])
-dashboardApp.controller('insertController', ['$scope', '$http', 'infoService', function ($scope, $http, infoService) {
-    $scope.$watch('date', function (newVal, oldVal, scope) {
-        //console.log('new:' + newVal);
-        //console.log('old' + oldVal);
-    })
-    $scope.date = new Date();
-    $scope.requestDate = new Date();
-    $scope.factories = [];
-    $scope.mCategories = [];
-    $scope.mNames = [];
-    // Load all info for initial input
-    infoService.loadAll().then(function (response) {
-        //console.log(response.data);
-        $scope.factories = [].concat(response.data.factory);
-        $scope.mCategories = [].concat(response.data.mCategory);
-        $scope.mNames = [].concat(response.data.mName);
-    });
-    $scope.clickPost = function (scope) {
-        //        console.log($scope.factoryInput);
-        //         console.log($scope.mCategoryInput);
-        //         console.log($scope.mNameInput);
-        $scope.tax = $scope.amoutNoTax * $scope.taxRate;
-        $scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
-        var post_data = {
-            'date': $scope.date
-            , 'mId': $scope.mId
-            , 'mCategory': $scope.mCategoryInput
-            , 'mName': $scope.mNameInput
-            , 'size': $scope.size
-            , 'param': $scope.param
-            , 'buyNum': $scope.buyNum
-            , 'sentNum': $scope.sentNum
-            , 'nId': $scope.nId
-            , 'orderId': $scope.orderId
-            , 'priceNoTax': $scope.priceNoTax
-            , 'amoutNoTax': $scope.amoutNoTax
-            , 'taxRate': $scope.taxRate
-            , 'tax': $scope.tax
-            , 'total': $scope.total
-            , 'factory': $scope.factoryInput
-            , 'requestDate': $scope.requestDate
-        , }
-        var req = {
-            method: 'POST'
-            , url: 'http://localhost:8080/backend/data/insert'
-            , headers: {
-                'Content-Type': 'application/json'
-            }
-            , data: post_data
-        }
-        $http(req).then(function (response) {
-            console.log(response);
-            if (response.data.code != 0) {
-                alert("输入有误，请检查后重新输入");
-            }
-            else {
-                alert("录入成功");
-            }
-        });
-    }
-}])
 dashboardApp.controller('reportController', ['$scope', '$http', function ($scope, $http) {
     $scope.loading = true;
     $scope.show = false;
@@ -375,6 +309,18 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         startDate: moment().subtract(7, "days")
         , endDate: moment()
     }
+    $scope.download = function () {
+        $http({
+            method: 'get'
+            , url: 'http://localhost:8080/backend/data/db'
+                //            , headers: {
+                //                'Content-Type': 'application/json'
+                //            }
+                //            , data: $scope.content
+        }).then(function (response) {
+            console.log(response);
+        });
+    }
     $scope.apply = function () {
         $scope.loading = true;
         $scope.show = false;
@@ -447,3 +393,69 @@ dashboardApp.controller('reportController', ['$scope', '$http', function ($scope
         });
     }
             }]);
+dashboardApp.controller('insertController', ['$scope', '$http', 'infoService', function ($scope, $http, infoService) {
+    $scope.$watch('date', function (newVal, oldVal, scope) {
+        //console.log('new:' + newVal);
+        //console.log('old' + oldVal);
+    })
+    $scope.date = new Date();
+    $scope.requestDate = new Date();
+    $scope.factories = [];
+    $scope.mCategories = [];
+    $scope.mNames = [];
+    //this.info = angular.copy(info);
+    // Load all info for initial input
+    // infoService.loadAll().then(function (response) {
+    //console.log(this.info);
+    infoService.loadAll().then(function (response) {
+        //console.log(info);
+        $scope.factories = [].concat(response.data.factory);
+        $scope.mCategories = [].concat(response.data.mCategory);
+        $scope.mNames = [].concat(response.data.mName);
+    });
+    //});
+    //console.log(this.info);
+    $scope.clickPost = function (scope) {
+        //        console.log($scope.factoryInput);
+        //         console.log($scope.mCategoryInput);
+        //         console.log($scope.mNameInput);
+        $scope.tax = $scope.amoutNoTax * $scope.taxRate;
+        $scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
+        var post_data = {
+            'date': $scope.date
+            , 'mId': $scope.mId
+            , 'mCategory': $scope.mCategoryInput
+            , 'mName': $scope.mNameInput
+            , 'size': $scope.size
+            , 'param': $scope.param
+            , 'buyNum': $scope.buyNum
+            , 'sentNum': $scope.sentNum
+            , 'nId': $scope.nId
+            , 'orderId': $scope.orderId
+            , 'priceNoTax': $scope.priceNoTax
+            , 'amoutNoTax': $scope.amoutNoTax
+            , 'taxRate': $scope.taxRate
+            , 'tax': $scope.tax
+            , 'total': $scope.total
+            , 'factory': $scope.factoryInput
+            , 'requestDate': $scope.requestDate
+        , }
+        var req = {
+            method: 'POST'
+            , url: 'http://localhost:8080/backend/data/insert'
+            , headers: {
+                'Content-Type': 'application/json'
+            }
+            , data: post_data
+        }
+        $http(req).then(function (response) {
+            console.log(response);
+            if (response.data.code != 0) {
+                alert("输入有误，请检查后重新输入");
+            }
+            else {
+                alert("录入成功");
+            }
+        });
+    }
+}])
