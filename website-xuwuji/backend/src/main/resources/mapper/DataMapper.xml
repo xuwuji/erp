@@ -52,6 +52,11 @@
 		data;
 	</select>
 
+	<select id="getOrderId" resultType="string">
+		select distinct(OrderId) from
+		data;
+	</select>
+
 
 	<select id="getSize" resultType="string">
 		select distinct(size) from data;
@@ -115,6 +120,13 @@
 			<foreach item="nId" collection="nId" open="(" separator=","
 				close=")">
 				#{nId}
+			</foreach>
+		</if>
+		<if test="orderId!=''">
+			AND orderId in
+			<foreach item="orderId" collection="orderId" open="(" separator=","
+				close=")">
+				#{orderId}
 			</foreach>
 		</if>
 	</select>

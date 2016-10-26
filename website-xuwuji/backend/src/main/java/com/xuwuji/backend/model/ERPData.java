@@ -40,6 +40,25 @@ public class ERPData {
 	public static final String FACTORY = "factory";
 	public static final String REQUESTDATE = "requestDate";
 
+	public static final String C_ID = "id";
+	public static final String C_DATE = "日期";
+	public static final String C_MID = "材料编号";
+	public static final String C_MCATEGORY = "材料类型";
+	public static final String C_MNAME = "材料名称";
+	public static final String C_SIZE = "规格";
+	public static final String C_PARAM = "单位";
+	public static final String C_BUYNUM = "购入数";
+	public static final String C_SENTNUM = "发出数";
+	public static final String C_ORDERID = "订单编号";
+	public static final String C_NID = "单据编号";
+	public static final String C_PRICENOTAX = "不含税单价";
+	public static final String C_AMOUNTNOTAX = "不含税金额";
+	public static final String C_TAX = "税额";
+	public static final String C_TAXRATE = "税率";
+	public static final String C_TOTAL = "价税合计";
+	public static final String C_FACTORY = "厂商";
+	public static final String C_REQUESTDATE = "申请付款日期";
+
 	public int getId() {
 		return id;
 	}

@@ -1,0 +1,17 @@
+<div class="login" ng-controller="loginController">
+	<div class="heading">
+		<form role="form" style="display: inline-block; margin: 0 auto;" ng-submit="login(username,password)">
+			<div class="input-group input-group-lg" style="width: 500px;">
+				<span class="input-group-addon"><i class="fa fa-user"></i></span> <input
+					type="text" class="form-control" placeholder="用户名"  name="username" id="username" ng-model="username">
+			</div>
+			<br>
+			<div class="input-group input-group-lg" style="width: 500px;">
+				<span class="input-group-addon"><i class="fa fa-lock"></i></span> <input
+					type="password" class="form-control" placeholder="密码" name="password" id="password"  ng-model="password">
+			</div>
+			<br>
+			<button type="submit" style="width: 500px;height:50px">登陆</button>
+		</form>
+	</div>
+</div>

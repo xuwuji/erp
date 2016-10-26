@@ -40,9 +40,9 @@
             <!--left side starts-->
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li><a href="#/">报表 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#/insert">数据录入</a></li>
-                    <li><a href="#/advance">高级功能（beta）</a></li>
+                    <li><a ui-sref="dashboard.report">报表 <span class="sr-only">(current)</span></a></li>
+                    <li><a ui-sref="dashboard.insert">数据录入</a></li>
+                    <li><a ui-sref="dashboard.advance">高级功能（beta）</a></li>
                 </ul>
             </div>
             <!--left side starts-->
@@ -53,32 +53,8 @@
             <!--main part ends-->
         </div>
     </div>
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!--    3rd lib-->
-    <script src="../../resources/js/jquery-2.1.1.min.js"></script>
-    <script src="../../resources/js/bootstrap-3.3.0.min.js"></script>
-    <script src="../../resources/js/angular.min.js"></script>
-    <script src="../../resources/js/angular-route.min.js"></script>
-    <script src="../../resources/js/angular-ckeditor.min.js"></script>
-    <script src="../../resources/js/angular-sanitize.min.js"></script>
-    <script src="../../resources/js/angular-bind-html-compile.min.js"></script>
-    <!--    <script src="//cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>-->
-    <script src="../../resources/js/moment.min.js"></script>
-    <script src="../../resources/js/bootstrap-select.js"></script>
-    <script src="../../resources/js/angular-bootstrap-select.js"></script>
-    <script src="../../resources/js/daterangepicker.js"></script>
-    <script src="../../resources/js/angular-daterangepicker.js"></script>
-    <script src="../../resources/js/angular-messages.js"></script>
-    <script src="../../resources/js/angular-animate.js"></script>
-    <script src="../../resources/js/angular-aria.js"></script>
-    <script src="../../resources/js/angular-material.js"></script>
-    <script src="../../resources/js/highcharts-ng.js"></script>
-    <script src="../../resources/js/highcharts-buttons.js"></script>
-    <script src="../../resources/js/highcharts-more.js"></script>
-    <script src="../../resources/js/highstock.js"></script>
-    <script src="../../resources/js/angular-ui-router.min.js"></script>
+     <script src="../../resource/js/lz-string.min.js"></script>
     <!--  js   -->
-    <script src="../../js/config.js"></script>
     <script src="../../js/controller/dataService.js"></script>
     <script src="../../js/controller/dashboardController.js"></script>
 </body>

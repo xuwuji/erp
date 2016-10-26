@@ -23,6 +23,8 @@ public interface ERPDataMapper {
 
 	public List<String> getNId();
 
+	public List<String> getOrderId();
+
 	public List<ERPData> get(HashMap<String, Object> map);
 
 	public void insert(ERPData data);

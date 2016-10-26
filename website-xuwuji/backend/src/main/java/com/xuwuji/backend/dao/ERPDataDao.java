@@ -23,16 +23,16 @@ public class ERPDataDao {
 	public List<ERPData> getAll() {
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
+			System.out.println("--------get all data start--------");
 			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
-			// System.out.println(mapper.getAll());
 			return mapper.getAll();
 		} catch (Exception e) {
-			System.out.println("exce");
+			System.out.println("--------get all data execption--------");
 			e.printStackTrace();
 			session.rollback();
 			return null;
 		} finally {
-			System.out.println("close");
+			System.out.println("--------get all data close--------");
 			session.close();
 		}
 	}
@@ -41,6 +41,7 @@ public class ERPDataDao {
 		HashMap<String, List<String>> map = new HashMap<String, List<String>>();
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
+			System.out.println("--------get info start--------");
 			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
 			map.put("mCategory", mapper.getMCategory());
 			map.put("mName", mapper.getMName());
@@ -49,14 +50,15 @@ public class ERPDataDao {
 			map.put("factory", mapper.getFactory());
 			map.put("mId", mapper.getMId());
 			map.put("nId", mapper.getNId());
+			map.put("orderId", mapper.getOrderId());
 			return map;
 		} catch (Exception e) {
-			System.out.println("exce");
+			System.out.println("--------get info execption--------");
 			e.printStackTrace();
 			session.rollback();
 			return null;
 		} finally {
-			System.out.println("close");
+			System.out.println("--------get info close--------");
 			session.close();
 		}
 	}
@@ -100,13 +102,14 @@ public class ERPDataDao {
 		// sizeString = sizeString.substring(0, sizeString.length() - 1);
 		String[] param = object.getString("param").split(",");
 		String[] factory = object.getString("factory").split(",");
+		String[] orderId = object.getString("orderId").split(",");
 		// System.out.println(sizeString);
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		// try {
+		// //Thread.sleep(100);
+		// } catch (InterruptedException e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
 		HashMap<String, Object> map = new HashMap();
 		map.put("from", from);
 		map.put("end", end);
@@ -117,19 +120,20 @@ public class ERPDataDao {
 		map.put(ERPData.FACTORY, factory);
 		map.put(ERPData.MID, mId);
 		map.put(ERPData.NID, nId);
-
+		map.put(ERPData.ORDERID, orderId);
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
+			System.out.println("--------get data start--------");
 			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
-			//System.out.println(mapper.get(map));
+			// System.out.println(mapper.get(map));
 			return mapper.get(map);
 		} catch (Exception e) {
-			System.out.println("exce");
+			System.out.println("--------get data execption--------");
 			e.printStackTrace();
 			session.rollback();
 			return null;
 		} finally {
-			System.out.println("close");
+			System.out.println("--------get data close--------");
 			session.close();
 		}
 	}
