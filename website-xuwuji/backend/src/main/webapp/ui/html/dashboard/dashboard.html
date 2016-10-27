@@ -2,61 +2,69 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-    <title>数据系统</title>
-    <!-- 3rd lib -->
-    <link rel="stylesheet" href="../../resources/css/bootstrap-select.css">
-    <link href="../../resources/css/daterangepicker.css" rel="stylesheet">
-    <link href="../../resources/css/angular-material.css" rel="stylesheet">
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="../../css/dashboard.css" rel="stylesheet"> </head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+<title>数据系统</title>
+<!-- 3rd lib -->
+<link rel="stylesheet" href="../../resources/css/bootstrap-select.css">
+<link href="../../resources/css/daterangepicker.css" rel="stylesheet">
+<link href="../../resources/css/angular-material.css" rel="stylesheet">
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="../../css/dashboard.css" rel="stylesheet">
+</head>
 
 <body ng-app="dashboardApp">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="#">系统名称</a> </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Help</a></li>
-                </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search..."> </form>
-            </div>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="row" style="background-color:white">
-            <!--left side starts-->
-            <div class="col-sm-3 col-md-2 sidebar">
-                <ul class="nav nav-sidebar">
-                    <li><a ui-sref="dashboard.report">报表 <span class="sr-only">(current)</span></a></li>
-                    <li><a ui-sref="dashboard.insert">数据录入</a></li>
-                    <li><a ui-sref="dashboard.advance">高级功能（beta）</a></li>
-                </ul>
-            </div>
-            <!--left side starts-->
-            <!--main part starts-->
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background-color:white">
-                <div ui-view="dashboardView"></div>
-            </div>
-            <!--main part ends-->
-        </div>
-    </div>
-     <script src="../../resource/js/lz-string.min.js"></script>
-    <!--  js   -->
-    <script src="../../js/controller/dataService.js"></script>
-    <script src="../../js/controller/dashboardController.js"></script>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">系统名称</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Settings</a></li>
+					<li><a href="#">Profile</a></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="row" style="background-color: white">
+			<!--left side starts-->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a ui-sref="dashboard.report">报表 <span class="sr-only">(current)</span></a></li>
+					<li><a ui-sref="dashboard.insert">数据录入</a></li>
+					<li><a ui-sref="dashboard.advance">高级功能（beta）</a></li>
+				</ul>
+			</div>
+			<!--left side starts-->
+			<!--main part starts-->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
+				style="background-color: white">
+				<div ui-view="dashboardView"></div>
+			</div>
+			<!--main part ends-->
+		</div>
+	</div>
+	<!--  js   -->
 </body>
 
 </html>

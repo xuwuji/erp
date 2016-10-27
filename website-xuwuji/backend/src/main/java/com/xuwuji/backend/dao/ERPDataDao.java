@@ -138,6 +138,17 @@ public class ERPDataDao {
 		}
 	}
 
+	public ERPData getById(String id) {
+		SqlSession session = SessionFactory.openDEVSession();
+		try {
+			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
+			return mapper.getById(Integer.valueOf(id));
+		} finally {
+			System.out.println("close");
+			session.close();
+		}
+	}
+
 	public void insert(String json) throws JSONException {
 		JSONObject object = new JSONObject(json);
 		ERPData data = new ERPData();
@@ -171,6 +182,24 @@ public class ERPDataDao {
 			System.out.println("close");
 			session.close();
 		}
+	}
+
+	public void delete(String id) {
+		SqlSession session = SessionFactory.openDEVSession();
+		try {
+			System.out.println("trying to delete id: " + id);
+			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
+			mapper.delete(Integer.valueOf(id));
+			session.commit();
+		} catch (Exception e) {
+			System.out.println("exception occured deleting id: " + id);
+			e.printStackTrace();
+			session.rollback();
+		} finally {
+			System.out.println("successfully deleted id: " + id);
+			session.close();
+		}
+
 	}
 
 	public static void main(String[] args) {

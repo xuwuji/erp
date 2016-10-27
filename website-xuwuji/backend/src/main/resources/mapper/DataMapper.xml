@@ -32,6 +32,12 @@
 	<select id="getAll" resultMap="ERPDataResult">
 		select * from data;
 	</select>
+
+	<select id="getById" resultMap="ERPDataResult">
+		select * from data where
+		id=#{id};
+	</select>
+
 	<select id="getMId" resultType="string">
 		select distinct(mId) from data;
 	</select>
@@ -124,8 +130,8 @@
 		</if>
 		<if test="orderId!=''">
 			AND orderId in
-			<foreach item="orderId" collection="orderId" open="(" separator=","
-				close=")">
+			<foreach item="orderId" collection="orderId" open="("
+				separator="," close=")">
 				#{orderId}
 			</foreach>
 		</if>
@@ -137,5 +143,9 @@
 		(date,mId,mCategory,mName,size,param,buyNum,sentNum,orderId,nId,priceNoTax,amoutNoTax,tax,taxRate,total,factory,requestDate)
 		values(#{date},#{mId},#{mCategory},#{mName},#{size},#{param},#{buyNum},#{sentNum},#{orderId},#{nId},#{priceNoTax},#{amoutNoTax},#{tax},#{taxRate},#{total},#{factory},#{requestDate});
 	</insert>
+
+	<delete id="delete">
+		delete from data where id=#{id}
+	</delete>
 
 </mapper>

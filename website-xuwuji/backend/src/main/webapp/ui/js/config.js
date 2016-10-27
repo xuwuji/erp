@@ -1,7 +1,7 @@
 var dataApp = angular.module('dataApp', [ 'ui.router', 'ngMaterial',
 		'ngMessages', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile',
 		'angular-bootstrap-select', 'daterangepicker', 'highcharts-ng',
-		'uiRouterStyles' ]);
+		'uiRouterStyles', 'ui.bootstrap' ]);
 dataApp.config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.defaults.useXDomain = true;
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -106,7 +106,7 @@ dataApp.run(function($rootScope, $state) {
 			return;
 		}
 		// if the user not login, back to the login page
-		if (!$rootScope.logStatus) {
+		if ($rootScope.logStatus) {
 			// cancel the default jump event
 			event.preventDefault();
 			// jump to the login state

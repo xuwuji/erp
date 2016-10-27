@@ -1,18 +1,13 @@
 package com.xuwuji.backend.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,16 +20,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.cache.CacheBuilder;
@@ -44,6 +35,7 @@ import com.xuwuji.backend.dao.ERPDataDao;
 import com.xuwuji.backend.model.ERPData;
 import com.xuwuji.backend.model.ErrorCode;
 import com.xuwuji.backend.model.RestResponse;
+import com.xuwuji.backend.util.DownloadUtil;
 import com.xuwuji.backend.util.TimeUtil;
 
 @Controller
@@ -65,10 +57,20 @@ public class DataController {
 	private static final int BUFFER_SIZE = 4096;
 	private static final String CONTENT_TYPE = "application/octet-stream";
 	private static HashMap<String, List<ERPData>> downloadMap = new HashMap<String, List<ERPData>>();
+	private static ConcurrentHashMap<String, Integer> downloadMapCount = new ConcurrentHashMap<String, Integer>();
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ERPData> getAll() {
+		/**
+		 * clear the download cache, if the data has already been download, then
+		 * remove it from the cache
+		 */
+		for (Entry<String, Integer> entry : downloadMapCount.entrySet()) {
+			if (entry.getValue() != 0) {
+				downloadMapCount.remove(entry.getKey());
+			}
+		}
 		return dao.getAll();
 	}
 
@@ -86,7 +88,22 @@ public class DataController {
 	@RequestMapping(value = "/get", method = RequestMethod.POST)
 	@ResponseBody
 	public List<ERPData> get(@RequestBody String json) throws Exception {
+		/**
+		 * clear the download cache, if the data has already been download, then
+		 * remove it from the cache
+		 */
+		for (Entry<String, Integer> entry : downloadMapCount.entrySet()) {
+			if (entry.getValue() != 0) {
+				downloadMapCount.remove(entry.getKey());
+			}
+		}
 		return dataCache.get(json);
+	}
+
+	@RequestMapping(value = "/get/id/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ERPData getById(@PathVariable String id) throws Exception {
+		return dao.getById(id);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
@@ -112,6 +129,7 @@ public class DataController {
 		@SuppressWarnings("static-access")
 		String key = TimeUtil.getCurrentTime(new DateTime().now());
 		downloadMap.put(key, list);
+		downloadMapCount.put(key, 0);
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -126,6 +144,7 @@ public class DataController {
 	public void downloadFromDB(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("key") String key) throws IOException {
 		List<ERPData> list = downloadMap.get(key);
+		downloadMapCount.put(key, downloadMapCount.get(key) + 1);
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition",
 				String.format("attachment;filename=\"%s\"", TimeUtil.getSimpleDateTime(new DateTime().now()) + ".xls"));
@@ -192,25 +211,18 @@ public class DataController {
 		}
 
 		// write workbook to outputstream
-		ServletOutputStream out = response.getOutputStream();
-		wb.write(out);
-		out.flush();
-		out.close();
-		// try {
-		// InputStream is = new
-		// ByteArrayInputStream(list.toString().getBytes(StandardCharsets.UTF_8));
-		// OutputStream os = response.getOutputStream();
-		// byte[] buffer = new byte[BUFFER_SIZE];
-		// while ((is.read(buffer)) != -1) {
-		// os.write(buffer);
-		// }
-		// try (FileOutputStream outputStream = new
-		// FileOutputStream("JavaBooks.xlsx")) {
-		// wb.write(outputStream);
-		// }
-		// } catch (Exception e) {
-		//
-		// }
+		DownloadUtil.exportExcel(request, response, wb);
+	}
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public RestResponse deleteRecord(@PathVariable("id") String id) {
+		try {
+			dao.delete(id);
+			return RestResponse.goodResponse("id");
+		} catch (Exception e) {
+			return RestResponse.errorResponse(ErrorCode.DATA_EXCEPTION, e.getMessage());
+		}
 	}
 
 }

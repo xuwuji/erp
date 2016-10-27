@@ -182,6 +182,7 @@
 					<th ng-if="superUser">税率</th>
 					<th ng-if="superUser">价税统计</th>
 					<th>厂商</th>
+					<th>操作</th>
 					<!--                   <th>申请付款日期</th>-->
 				</tr>
 			</thead>
@@ -203,6 +204,12 @@
 					<td ng-if="superUser">{{record.taxRate}}</td>
 					<td ng-if="superUser">{{record.total}}</td>
 					<td>{{record.factory}}</td>
+					<td >
+						<button class="btn btn-winfo"
+							ng-click="updateRecord(record.id)">修改</button>
+						<button class="btn btn-danger"
+							ng-click="deleteRecord(record.id)">删除</button>
+					</td>
 					<!--                   <td>{{record.requestDate}}</td>-->
 				</tr>
 			</tbody>

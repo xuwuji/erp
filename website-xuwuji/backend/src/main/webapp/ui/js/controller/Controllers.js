@@ -34,8 +34,12 @@ dataApp
 						'dataService',
 						'authService',
 						'$timeout',
+						'$modal',
 						function($scope, $http, dataService, authService,
-								$timeout) {
+								$timeout, $modal) {
+
+							// this.$modal = $modal;
+
 							if (authService.isSuper()) {
 								$scope.superUser = true;
 							} else {
@@ -45,73 +49,85 @@ dataApp
 							$scope.show = false;
 							$scope.content = [];
 							$scope.totalPerPriceNoTax = 0;
-							dataService
-									.getAll()
-									.then(
-											function(response) {
-												$scope.loading = false;
-												$scope.show = true;
-												console.log(response);
-												$scope.content = response.data;
-												var total = 0.0;
-												$scope.totalPerAmountNoTax = 0;
-												$scope.totalTax = 0;
-												$scope.totalTotalTax = 0;
-												$scope.totalBuyNum = 0;
-												$scope.totalSentNum = 0;
-												for ( var i in $scope.content) {
-													// console.log($scope.content[i].priceNotax);
-													// 不含税单价
-													var perPrice = parseFloat($scope.content[i].priceNoTax
-															.replace(',', '')
-															.replace('-', 0));
-													// 不含税金额
-													// console.log($scope.content[i].amoutNoTax)
-													var perAmount = parseFloat($scope.content[i].amoutNoTax
-															.replace(',', '')
-															.replace('-', 0));
-													// 税额
-													var perTax = parseFloat($scope.content[i].tax
-															.replace(',', '')
-															.replace('-', 0));
-													// 价税统计
-													var perTotal = parseFloat($scope.content[i].total
-															.replace(',', '')
-															.replace('-', 0));
-													// 购入数
-													var perBuyNum = parseInt($scope.content[i].buyNum);
-													// 发出数量
-													var perSentNum = $scope.content[i].sentNum
-															.replace(',', '')
-															.replace('-', 0);
-													// console.log(parseFloat(per))
-													// console.log(perSentNum)
-													if (!isNaN(perPrice)) {
-														$scope.totalPerPriceNoTax += perPrice;
+
+							function getAll() {
+								dataService
+										.getAll()
+										.then(
+												function(response) {
+													$scope.loading = false;
+													$scope.show = true;
+													console.log(response);
+													$scope.content = response.data;
+													var total = 0.0;
+													$scope.totalPerAmountNoTax = 0;
+													$scope.totalTax = 0;
+													$scope.totalTotalTax = 0;
+													$scope.totalBuyNum = 0;
+													$scope.totalSentNum = 0;
+													for ( var i in $scope.content) {
+														// console.log($scope.content[i].priceNotax);
+														// 不含税单价
+														var perPrice = parseFloat($scope.content[i].priceNoTax
+																.replace(',',
+																		'')
+																.replace('-', 0));
+														// 不含税金额
+														// console.log($scope.content[i].amoutNoTax)
+														var perAmount = parseFloat($scope.content[i].amoutNoTax
+																.replace(',',
+																		'')
+																.replace('-', 0));
+														// 税额
+														var perTax = parseFloat($scope.content[i].tax
+																.replace(',',
+																		'')
+																.replace('-', 0));
+														// 价税统计
+														var perTotal = parseFloat($scope.content[i].total
+																.replace(',',
+																		'')
+																.replace('-', 0));
+														// 购入数
+														var perBuyNum = parseInt($scope.content[i].buyNum);
+														// 发出数量
+														var perSentNum = $scope.content[i].sentNum
+																.replace(',',
+																		'')
+																.replace('-', 0);
+														// console.log(parseFloat(per))
+														// console.log(perSentNum)
+														if (!isNaN(perPrice)) {
+															$scope.totalPerPriceNoTax += perPrice;
+														}
+														if (!isNaN(perAmount)) {
+															$scope.totalPerAmountNoTax += perAmount;
+														}
+														if (!isNaN(perTax)) {
+															$scope.totalTax += perTax;
+														}
+														if (!isNaN(perTotal)) {
+															$scope.totalTotalTax += perTotal;
+														}
+														if (!isNaN(perBuyNum)) {
+															$scope.totalBuyNum += perBuyNum;
+														}
+														if (!isNaN(perSentNum)) {
+															$scope.totalSentNum += parseInt(perSentNum);
+														}
 													}
-													if (!isNaN(perAmount)) {
-														$scope.totalPerAmountNoTax += perAmount;
-													}
-													if (!isNaN(perTax)) {
-														$scope.totalTax += perTax;
-													}
-													if (!isNaN(perTotal)) {
-														$scope.totalTotalTax += perTotal;
-													}
-													if (!isNaN(perBuyNum)) {
-														$scope.totalBuyNum += perBuyNum;
-													}
-													if (!isNaN(perSentNum)) {
-														$scope.totalSentNum += parseInt(perSentNum);
-													}
-												}
-												$scope.totalLeftNum = $scope.totalBuyNum
-														- $scope.totalSentNum;
-												// $scope.totalPerPriceNoTax =
-												// total;
-												// console.log($scope.totalPerPriceNoTax);
-												// console.log($scope.totalPerAmountNoTax);
-											});
+													$scope.totalLeftNum = $scope.totalBuyNum
+															- $scope.totalSentNum;
+													// $scope.totalPerPriceNoTax
+													// =
+													// total;
+													// console.log($scope.totalPerPriceNoTax);
+													// console.log($scope.totalPerAmountNoTax);
+												});
+							}
+
+							getAll();
+
 							$scope.$watch('content', function(newVal, oldVal) {
 								// console.log('new:' + newVal);
 								// console.log('old:' + oldVal);
@@ -258,20 +274,10 @@ dataApp
 								$scope.downloadText = "下载报表"
 								$scope.loading = true;
 								$scope.show = false;
-								// console.log($scope.result.date.startDate.format('YYYY-MM-DD'));
-								// console.log($scope.result.mCategory.toString());
-								// console.log(encodeURI($scope.result.size.toString()));
-								//
 								for ( var i in $scope.result.size) {
 									// //console.log($scope.result.size[i]);
 									$scope.result.size[i] = $scope.result.size[i]
 											.replace(' ', '^');
-									// if ($scope.result.size[i].indexOf('，')) {
-									// console.log($scope.result.size[i]);
-									// }
-									// $scope.result.size[i] =
-									// $scope.result.size[i].replace('，', '^');
-									// //console.log($scope.result.size[i]);
 								}
 								var request = {
 									'from' : $scope.result.date.startDate
@@ -363,41 +369,71 @@ dataApp
 															- $scope.totalSentNum;
 												});
 							}
+
+							$scope.deleteRecord = function(id) {
+								dataService.deleteRecord(
+										'/backend/data/delete/' + id).then(
+										function(response) {
+											getAll();
+										});
+							}
+
+							$scope.updateRecord = function(id) {
+								$modal
+										.open({
+											templateUrl : '/backend/ui/html/dashboard/template/update.html',
+											controller : 'updateController',
+											controllerAs : 'ctrl',
+											windowClass : 'app-modal-window-managementPannel',
+											resolve : {
+												selectedData : function() {
+													return {
+														id : id
+													};
+												}
+											}
+										});
+							}
 						} ]);
-dataApp.controller('insertController', [ '$scope', '$http', 'dataService',
-		function($scope, $http, dataService) {
-			$scope.$watch('date', function(newVal, oldVal, scope) {
-				// console.log('new:' + newVal);
-				// console.log('old' + oldVal);
-			})
-			$scope.date = new Date();
-			$scope.requestDate = new Date();
-			$scope.factories = [];
-			$scope.mCategories = [];
-			$scope.mNames = [];
-			// this.info = angular.copy(info);
-			// Load all info for initial input
-			// infoService.loadAll().then(function (response) {
-			// console.log(this.info);
-			dataService.loadInfo().then(function(response) {
-				// console.log(info);
-				$scope.factories = [].concat(response.data.factory);
-				$scope.mCategories = [].concat(response.data.mCategory);
-				$scope.mNames = [].concat(response.data.mName);
-			});
-			// });
-			// console.log(this.info);
-			$scope.clickPost = function(scope) {
-				// console.log($scope.factoryInput);
-				// console.log($scope.mCategoryInput);
-				// console.log($scope.mNameInput);
+
+dataApp.controller('updateController', [
+		'$scope',
+		'$http',
+		'dataService',
+		'$modalInstance',
+		'selectedData',
+		function($scope, $http, dataService, $modalInstance, selectedData) {
+			$http.get('/backend/data/get/id/' + selectedData.id).then(
+					function(response) {
+						console.log(response);
+						var data = response.data;
+						console.log(data);
+						$scope.mId = data.mId;
+						$scope.mCategory = data.mCategory;
+						$scope.mName = data.mName;
+						$scope.size = data.size;
+						$scope.param = data.param;
+						$scope.buyNum = data.buyNum;
+						$scope.sentNum = data.sentNum;
+						$scope.nId = data.nId;
+						$scope.orderId = data.orderId;
+						$scope.factory = data.factory;
+						$scope.amoutNoTax = data.amoutNoTax;
+						$scope.priceNoTax = data.priceNoTax;
+						$scope.taxRate = data.taxRate;
+						$scope.tax = data.tax;
+						$scope.total = data.total;
+					});
+
+			$scope.confirm = function() {
 				$scope.tax = $scope.amoutNoTax * $scope.taxRate;
 				$scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
 				var post_data = {
+					'id' : selectedData.id,
 					'date' : $scope.date,
 					'mId' : $scope.mId,
-					'mCategory' : $scope.mCategoryInput,
-					'mName' : $scope.mNameInput,
+					'mCategory' : $scope.mCategory,
+					'mName' : $scope.mName,
 					'size' : $scope.size,
 					'param' : $scope.param,
 					'buyNum' : $scope.buyNum,
@@ -409,196 +445,23 @@ dataApp.controller('insertController', [ '$scope', '$http', 'dataService',
 					'taxRate' : $scope.taxRate,
 					'tax' : $scope.tax,
 					'total' : $scope.total,
-					'factory' : $scope.factoryInput,
+					'factory' : $scope.factory,
 					'requestDate' : $scope.requestDate,
 				}
-				var req = {
-					method : 'POST',
-					url : '/backend/data/insert',
-					headers : {
-						'Content-Type' : 'application/json'
-					},
-					data : post_data
-				}
-				$http(req).then(function(response) {
-					console.log(response);
-					if (response.data.code != 0) {
-						alert("输入有误，请检查后重新输入");
-					} else {
-						alert("录入成功");
-					}
-				});
-			}
-		} ])
-dataApp.controller('advanceController', [
-		'$scope',
-		'$http',
-		function($scope, $http) {
-			$scope.chartConfig = {
-				options : {
-					// This is the Main Highcharts chart config. Any Highchart
-					// options are valid here.
-					// will be overriden by values specified below.
-					chart : {
-						type : 'bar'
-					},
-					tooltip : {
-						style : {
-							padding : 10,
-							fontWeight : 'bold'
-						}
-					}
-				}, // The below properties are watched separately for changes.
-				// Series object (optional) - a list of series using normal
-				// Highcharts series options.
-				series : [ {
-					data : [ 10, 15, 12, 8, 7 ]
-				} ], // Title configuration (optional)
-				title : {
-					text : '购入数'
-				}, // Boolean to control showing loading status on chart
-				// (optional)
-				// Could be a string if you want to show specific loading text.
-				loading : false, // Configuration for the xAxis (optional).
-				// Currently only one x axis can be
-				// dynamically controlled.
-				// properties currentMin and currentMax provided 2-way binding
-				// to the chart's maximum and minimum
-				xAxis : {
-					currentMin : 0,
-					currentMax : 20,
-					title : {
-						text : 'values'
-					}
-				}, // Whether to use Highstocks instead of Highcharts
-				// (optional). Defaults to false.
-				useHighStocks : false, // size (optional) if left out the chart
-				// will default to size of the div or
-				// something sensible.
-				size : {
-					width : 400,
-					height : 300
-				}, // function (optional)
-				func : function(chart) {
-					// setup some logic for the chart
-				}
+
+				console.log(post_data);
+				dataService.updateRecord('/backend/data/update', post_data)
+						.then(function(response) {
+							console.log(response);
+							if (response.data.code != 0) {
+								alert("输入有误，请检查后重新输入");
+							} else {
+								alert("录入成功");
+							}
+						});
 			};
-			$scope.chartConfig1 = {
-				"options" : {
-					"chart" : {
-						"type" : "areaspline"
-					},
-					"plotOptions" : {
-						"series" : {
-							"stacking" : ""
-						}
-					}
-				},
-				"series" : [ {
-					"name" : "YA板材",
-					"data" : [ 1, 2, 4, 7, 3 ],
-					"id" : "series-0"
-				}, {
-					"name" : "YC封边条",
-					"data" : [ 3, 1, null, 5, 2 ],
-					"connectNulls" : true,
-					"id" : "series-1"
-				}, {
-					"name" : "俊安（广州泰康）",
-					"data" : [ 5, 2, 2, 3, 5 ],
-					"type" : "column",
-					"id" : "series-2"
-				}, {
-					"name" : "天元（东莞希尔顿",
-					"data" : [ 1, 1, 2, 3, 2 ],
-					"type" : "column",
-					"id" : "series-3"
-				} ],
-				"title" : {
-					"text" : "价税统计"
-				},
-				"credits" : {
-					"enabled" : true
-				},
-				"loading" : false,
-				"size" : {}
+
+			$scope.cancel = function() {
+				$modalInstance.dismiss('cancel');
 			};
-			$scope.chartConfig2 = {
-				options : {
-					chart : {
-						zoomType : 'x'
-					},
-					rangeSelector : {
-						enabled : true
-					},
-					navigator : {
-						enabled : true
-					}
-				},
-				series : [],
-				title : {
-					text : '订单量'
-				},
-				useHighStocks : true
-			}
-			$scope.chartConfig2.series.push({
-				id : 1,
-				data : [ [ 1147651200000, 23.15 ], [ 1147737600000, 23.01 ],
-						[ 1147824000000, 22.73 ], [ 1147910400000, 22.83 ],
-						[ 1147996800000, 22.56 ], [ 1148256000000, 22.88 ],
-						[ 1148342400000, 22.79 ], [ 1148428800000, 23.50 ],
-						[ 1148515200000, 23.74 ], [ 1148601600000, 23.72 ],
-						[ 1148947200000, 23.15 ], [ 1149033600000, 22.65 ] ]
-			}, {
-				id : 2,
-				data : [ [ 1147651200000, 25.15 ], [ 1147737600000, 25.01 ],
-						[ 1147824000000, 25.73 ], [ 1147910400000, 25.83 ],
-						[ 1147996800000, 25.56 ], [ 1148256000000, 25.88 ],
-						[ 1148342400000, 25.79 ], [ 1148428800000, 25.50 ],
-						[ 1148515200000, 26.74 ], [ 1148601600000, 26.72 ],
-						[ 1148947200000, 26.15 ], [ 1149033600000, 26.65 ] ]
-			});
-			$scope.chartConfig3 = {
-				"options" : {
-					chart : {
-						plotBackgroundColor : null,
-						plotBorderWidth : null,
-						plotShadow : false,
-						type : 'pie'
-					}
-				},
-				"series" : [ {
-					name : 'Brands',
-					colorByPoint : true,
-					data : [ {
-						name : '俊安（广州泰康）',
-						y : 56.33
-					}, {
-						name : '天元（东莞希尔顿）',
-						y : 24.03,
-						sliced : true,
-						selected : true
-					}, {
-						name : '宁鹏（GRG义乌世贸中心）',
-						y : 10.38
-					}, {
-						name : '欣荣星（惠州龙门）',
-						y : 4.77
-					}, {
-						name : '欣荣星（四川自贡）',
-						y : 0.91
-					}, {
-						name : '永昌盛（广州泰康）',
-						y : 0.2
-					} ]
-				} ],
-				"title" : {
-					"text" : "厂商占有率"
-				},
-				"credits" : {
-					"enabled" : true
-				},
-				"loading" : false,
-				"size" : {}
-			};
-		} ])
+		} ]);

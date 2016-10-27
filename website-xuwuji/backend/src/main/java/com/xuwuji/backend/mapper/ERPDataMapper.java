@@ -29,4 +29,8 @@ public interface ERPDataMapper {
 
 	public void insert(ERPData data);
 
+	public void delete(int id);
+
+	public ERPData getById(int id);
+
 }
