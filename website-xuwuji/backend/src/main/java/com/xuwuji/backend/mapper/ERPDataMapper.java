@@ -33,4 +33,6 @@ public interface ERPDataMapper {
 
 	public ERPData getById(int id);
 
+	public void update(ERPData data);
+
 }

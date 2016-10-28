@@ -1,5 +1,7 @@
 package com.xuwuji.backend.model;
 
+import java.util.HashMap;
+
 public class ERPData {
 	private int id;
 	private String date;
@@ -58,6 +60,29 @@ public class ERPData {
 	public static final String C_TOTAL = "价税合计";
 	public static final String C_FACTORY = "厂商";
 	public static final String C_REQUESTDATE = "申请付款日期";
+
+	public static final HashMap<String, String> CN_US = new HashMap<String, String>();
+
+	static {
+		CN_US.put(ERPData.ID, ERPData.C_ID);
+		CN_US.put(ERPData.DATE, ERPData.C_DATE);
+		CN_US.put(ERPData.MID, ERPData.C_MID);
+		CN_US.put(ERPData.MCATEGORY, ERPData.C_MCATEGORY);
+		CN_US.put(ERPData.MNAME, ERPData.C_MNAME);
+		CN_US.put(ERPData.SIZE, ERPData.C_SIZE);
+		CN_US.put(ERPData.PARAM, ERPData.C_PARAM);
+		CN_US.put(ERPData.BUYNUM, ERPData.C_BUYNUM);
+		CN_US.put(ERPData.SENTNUM, ERPData.C_SENTNUM);
+		CN_US.put(ERPData.ORDERID, ERPData.C_ORDERID);
+		CN_US.put(ERPData.NID, ERPData.C_NID);
+		CN_US.put(ERPData.PRICENOTAX, ERPData.C_PRICENOTAX);
+		CN_US.put(ERPData.AMOUNTNOTAX, ERPData.C_AMOUNTNOTAX);
+		CN_US.put(ERPData.TAX, ERPData.C_TAX);
+		CN_US.put(ERPData.TAXRATE, ERPData.C_TAXRATE);
+		CN_US.put(ERPData.TOTAL, ERPData.C_TOTAL);
+		CN_US.put(ERPData.FACTORY, ERPData.C_FACTORY);
+		CN_US.put(ERPData.REQUESTDATE, ERPData.C_REQUESTDATE);
+	}
 
 	public int getId() {
 		return id;

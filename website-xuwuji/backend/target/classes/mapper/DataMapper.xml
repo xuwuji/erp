@@ -148,4 +148,27 @@
 		delete from data where id=#{id}
 	</delete>
 
+	<update id="update" parameterType="hashmap">
+		update data
+		<set>
+			<if test="date != null">date=#{date},</if>
+			<if test="mId != null">mId=#{mId},</if>
+			<if test="mCategory != null">mCategory=#{mCategory},</if>
+			<if test="size != null">size=#{size},</if>
+			<if test="param != null">param=#{param},</if>
+			<if test="buyNum != null">buyNum=#{buyNum},</if>
+			<if test="sentNum != null">sentNum=#{sentNum},</if>
+			<if test="orderId != null">orderId=#{orderId},</if>
+			<if test="nId != null">nId=#{nId},</if>
+			<if test="priceNoTax != null">priceNoTax=#{priceNoTax},</if>
+			<if test="amoutNoTax != null">amoutNoTax=#{amoutNoTax},</if>
+			<if test="tax != null">tax=#{tax},</if>
+			<if test="taxRate != null">taxRate=#{taxRate},</if>
+			<if test="total != null">total=#{total},</if>
+			<if test="factory != null">factory=#{factory},</if>
+			<if test="requestDate != null">requestDate=#{requestDate}</if>
+		</set>
+		where id=#{id}
+	</update>
+
 </mapper>

@@ -3,10 +3,10 @@
 		<br> <br> <br> <br> <br>
 		<md-content layout-padding="" style="background-color:white">
 		<form name="dataForm">
-			<div flex-gt-xs>
+			<!-- 	<div flex-gt-xs>
 				<label>日期:</label>
 				<md-datepicker ng-model="date" md-placeholder="Enter date"></md-datepicker>
-			</div>
+			</div> -->
 			<md-input-container class="md-block" flex-gt-sm="">
 			<label>材料编号</label> <input ng-model="mId" required=""> </md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
@@ -51,31 +51,34 @@
 			</div>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
-			<label>税额</label> <input name="taxRate" ng-model="tax"
-				required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+			<label>税额</label> <input name="tax" ng-model="tax" required=""
+				ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 			<div ng-messages="dataForm.taxRate.$error">
 				<div ng-message="pattern">请输入正确的数字</div>
 			</div>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
-			<label>价格统计</label> <input name="taxRate" ng-model="total"
+			<label>价格统计</label> <input name="total" ng-model="total"
 				required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 			<div ng-messages="dataForm.taxRate.$error">
 				<div ng-message="pattern">请输入正确的数字</div>
 			</div>
 			</md-input-container>
-			<!-- 	<div>
-				<label>税额:</label>{{amoutNoTax*(taxRate)|number}}
-			</div>
-			<br>
-			<div>
-				<label>价格统计:</label>{{amoutNoTax*((taxRate-0)+1)}}
-			</div> -->
 		</form>
 		</md-content>
+		<!-- <div ng-if="error">
+			{{errorMessage}}<br>{{detailErrorMessage}}
+		</div> -->
+		<md-toolbar class="md-warn"  ng-if="error">
+		<div class="md-toolbar-tools">
+			{{errorMessage}}<br>{{detailErrorMessage}}
+		</div>
+		</md-toolbar>
+
 		<div style="width: 25%; margin: 0 auto; padding-top: 20px">
-			<button type="button" class="btn btn-primary" ng-click="confirm()">确认</button>
-			<button type="button" class="btn btn-info" ng-click="cancel()"> 取消</button>
+			<button type="button" class="btn btn-danger" ng-click="confirm()">确认</button>
+			&nbsp;&nbsp;&nbsp;
+			<button type="button" class="btn btn-info" ng-click="cancel()"> 关闭</button>
 		</div>
 	</div>
 </div>

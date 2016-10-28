@@ -35,6 +35,7 @@ import com.xuwuji.backend.dao.ERPDataDao;
 import com.xuwuji.backend.model.ERPData;
 import com.xuwuji.backend.model.ErrorCode;
 import com.xuwuji.backend.model.RestResponse;
+import com.xuwuji.backend.util.ControllerUtil;
 import com.xuwuji.backend.util.DownloadUtil;
 import com.xuwuji.backend.util.TimeUtil;
 
@@ -44,6 +45,8 @@ public class DataController {
 
 	@Autowired
 	private ERPDataDao dao;
+	@Autowired
+	private ControllerUtil controllerUtil;
 
 	private LoadingCache<String, List<ERPData>> dataCache = CacheBuilder.newBuilder().maximumSize(500)
 			.expireAfterWrite(10, TimeUnit.MINUTES).build(new CacheLoader<String, List<ERPData>>() {
@@ -54,8 +57,6 @@ public class DataController {
 			});
 
 	private HashMap<String, List<String>> infoCache = new HashMap<String, List<String>>();
-	private static final int BUFFER_SIZE = 4096;
-	private static final String CONTENT_TYPE = "application/octet-stream";
 	private static HashMap<String, List<ERPData>> downloadMap = new HashMap<String, List<ERPData>>();
 	private static ConcurrentHashMap<String, Integer> downloadMapCount = new ConcurrentHashMap<String, Integer>();
 
@@ -104,6 +105,25 @@ public class DataController {
 	@ResponseBody
 	public ERPData getById(@PathVariable String id) throws Exception {
 		return dao.getById(id);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public RestResponse update(@RequestBody String json) {
+		try {
+			dao.update(json);
+			return RestResponse.goodResponse("ok");
+		} catch (JSONException e) {
+			e.printStackTrace();
+			String errorMessage = e.getMessage();
+			errorMessage = controllerUtil.translateErrorMessage(errorMessage);
+			return RestResponse.errorResponse(ErrorCode.INVALID_INPUT, errorMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+			String errorMessage = e.getMessage();
+			errorMessage = controllerUtil.translateErrorMessage(errorMessage);
+			return RestResponse.errorResponse(ErrorCode.DATA_EXCEPTION, errorMessage);
+		}
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)

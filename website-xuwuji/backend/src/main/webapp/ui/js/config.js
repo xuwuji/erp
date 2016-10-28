@@ -1,7 +1,7 @@
 var dataApp = angular.module('dataApp', [ 'ui.router', 'ngMaterial',
 		'ngMessages', 'ckeditor', 'ngSanitize', 'angular-bind-html-compile',
 		'angular-bootstrap-select', 'daterangepicker', 'highcharts-ng',
-		'uiRouterStyles', 'ui.bootstrap' ]);
+		'uiRouterStyles', 'ui.bootstrap', 'ngRoute' ]);
 dataApp.config([ '$httpProvider', function($httpProvider) {
 	$httpProvider.defaults.useXDomain = true;
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];

@@ -47,14 +47,11 @@ angular.module('dataApp').service('dataService',
 					this.getRequest(url);
 				},
 				postRequest : function(url, data) {
-					return $http({
-						method : 'Post',
-						url : url,
-						headers : {
-							'Content-Type' : 'application/json'
-						},
-						data : data
-					})
+					var deferred = $q.defer();
+					$http.post(url, data).then(function(response) {
+						deferred.resolve(response);
+					});
+					return deferred.promise;
 				},
 				updateRecord : function(url, data) {
 					this.postRequest(url, data);
