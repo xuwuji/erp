@@ -204,9 +204,10 @@
 					<td ng-if="superUser">{{record.taxRate}}</td>
 					<td ng-if="superUser">{{record.total}}</td>
 					<td>{{record.factory}}</td>
-					<td >
+					<td class='row'>
 						<button class="btn btn-winfo"
 							ng-click="updateRecord(record.id)">修改</button>
+								&nbsp;&nbsp;
 						<button class="btn btn-danger"
 							ng-click="deleteRecord(record.id)">删除</button>
 					</td>

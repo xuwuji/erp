@@ -33,35 +33,35 @@
 			<label>不含税单价</label> <input ng-model="priceNoTax" required=""
 				ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 			<div ng-messages="dataForm.priceNoTax.$error">
-				<div ng-message="pattern">请输入正确的数字</div>
+				<div ng-message="pattern">请输入正确的数字，不要出现特殊字符如逗号，括号等</div>
 			</div>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
 			<label>不含税金额</label> <input name="amoutNoTax" ng-model="amoutNoTax"
 				required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 			<div ng-messages="dataForm.amoutNoTax.$error">
-				<div ng-message="pattern">请输入正确的数字</div>
+				<div ng-message="pattern">请输入正确的数字，不要出现特殊字符如逗号，括号等</div>
 			</div>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
 			<label>税率</label> <input name="taxRate" ng-model="taxRate"
 				required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
 			<div ng-messages="dataForm.taxRate.$error">
-				<div ng-message="pattern">请输入正确的数字</div>
+				<div ng-message="pattern">请输入正确的数字，不要出现特殊字符如逗号，括号等</div>
 			</div>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
 			<label>税额</label> <input name="tax" ng-model="tax" required=""
 				ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
-			<div ng-messages="dataForm.taxRate.$error">
-				<div ng-message="pattern">请输入正确的数字</div>
+			<div ng-messages="dataForm.tax.$error">
+				<div ng-message="pattern">请输入正确的数字，不要出现特殊字符如逗号，括号等</div>
 			</div>
 			</md-input-container>
 			<md-input-container class="md-block" flex-gt-sm="">
-			<label>价格统计</label> <input name="total" ng-model="total"
-				required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
-			<div ng-messages="dataForm.taxRate.$error">
-				<div ng-message="pattern">请输入正确的数字</div>
+			<label>价格统计</label> <input name="total" ng-model="total" required=""
+				ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+			<div ng-messages="dataForm.total.$error">
+				<div ng-message="pattern">请输入正确的数字，不要出现特殊字符如逗号，括号等</div>
 			</div>
 			</md-input-container>
 		</form>
@@ -69,7 +69,7 @@
 		<!-- <div ng-if="error">
 			{{errorMessage}}<br>{{detailErrorMessage}}
 		</div> -->
-		<md-toolbar class="md-warn"  ng-if="error">
+		<md-toolbar class="md-warn" ng-if="error">
 		<div class="md-toolbar-tools">
 			{{errorMessage}}<br>{{detailErrorMessage}}
 		</div>
