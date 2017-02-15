@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -47,6 +46,7 @@ public class DataController {
 	@Autowired
 	private ControllerUtil controllerUtil;
 
+	//cache for reading data
 	private LoadingCache<String, List<ERPData>> dataCache = CacheBuilder.newBuilder().maximumSize(500)
 			.expireAfterWrite(10, TimeUnit.MINUTES).build(new CacheLoader<String, List<ERPData>>() {
 				@Override
@@ -59,6 +59,10 @@ public class DataController {
 	private static HashMap<String, List<ERPData>> downloadMap = new HashMap<String, List<ERPData>>();
 	private static ConcurrentHashMap<String, Integer> downloadMapCount = new ConcurrentHashMap<String, Integer>();
 
+	/**
+	 * get all data from db
+	 * @return
+	 */
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ERPData> getAll() {
@@ -74,6 +78,10 @@ public class DataController {
 		return dao.getAll();
 	}
 
+	/**
+	 * get info of data from db
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	@ResponseBody
@@ -82,9 +90,14 @@ public class DataController {
 			infoCache = dao.getInfo();
 		}
 		return infoCache;
-
 	}
 
+	/**
+	 * get data from db based on query criteria
+	 * @param json
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/get", method = RequestMethod.POST)
 	@ResponseBody
 	public List<ERPData> get(@RequestBody String json) throws Exception {
@@ -100,12 +113,23 @@ public class DataController {
 		return dataCache.get(json);
 	}
 
+	/**
+	 * get a record based on id
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/get/id/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ERPData getById(@PathVariable String id) throws Exception {
 		return dao.getById(id);
 	}
 
+	/**
+	 * update one record based on the its current data
+	 * @param json
+	 * @return
+	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResponse update(@RequestBody String json) {
@@ -125,6 +149,11 @@ public class DataController {
 		}
 	}
 
+	/**
+	 * insert one record into db
+	 * @param json
+	 * @return
+	 */
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResponse insert(@RequestBody String json) {
@@ -141,6 +170,12 @@ public class DataController {
 		}
 	}
 
+	/**
+	 * prepare for downloading data in excel format
+	 * @param json
+	 * @return
+	 * @throws ExecutionException
+	 */
 	@RequestMapping(value = "/download/prepare", method = RequestMethod.POST)
 	@ResponseBody
 	public RestResponse prepareDownload(@RequestBody String json) throws ExecutionException {
@@ -158,7 +193,14 @@ public class DataController {
 		return RestResponse.goodResponse(key);
 	}
 
-	@SuppressWarnings("resource")
+	/**
+	 * download data 
+	 * @param request
+	 * @param response
+	 * @param key
+	 * @throws IOException
+	 */
+	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/download/get/{key}", method = RequestMethod.GET)
 	public void downloadFromDB(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("key") String key) throws IOException {
@@ -168,7 +210,6 @@ public class DataController {
 		response.setHeader("Content-Disposition",
 				String.format("attachment;filename=\"%s\"", TimeUtil.getSimpleDateTime(new DateTime().now()) + ".xls"));
 		Workbook wb = new HSSFWorkbook();
-		CreationHelper createHelper = wb.getCreationHelper();
 		Sheet sheet = wb.createSheet("数据总表");
 		Row row = sheet.createRow((short) 0);
 		// information row
@@ -206,7 +247,6 @@ public class DataController {
 		C_FACTORY.setCellValue(ERPData.C_FACTORY);
 		Cell C_REQUESTDATE = row.createCell(16);
 		C_REQUESTDATE.setCellValue(ERPData.C_REQUESTDATE);
-
 		// put the data into the xls
 		for (int i = 0; i < list.size(); i++) {
 			Row dataRow = sheet.createRow((short) (i + 1));
@@ -228,11 +268,15 @@ public class DataController {
 			dataRow.createCell(15).setCellValue(list.get(i).getFactory());
 			dataRow.createCell(16).setCellValue(list.get(i).getRequestDate());
 		}
-
 		// write workbook to outputstream
 		DownloadUtil.exportExcel(request, response, wb);
 	}
 
+	/**
+	 * delete one record based on id
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public RestResponse deleteRecord(@PathVariable("id") String id) {
