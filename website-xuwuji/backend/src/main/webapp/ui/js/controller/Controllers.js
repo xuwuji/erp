@@ -9,14 +9,16 @@ dataApp.controller('loginController', [ '$scope', 'userRole', '$location',
 				} else {
 					if (password === userRole.normalUser.password) {
 						var url = $location.path() + "dashboard";
+						$rootScope.logStatus = true;
+						//alert("normal");
 						$location.path(url);
 						authService.setNormal();
-						$rootScope.logStatus = true;
 					} else if (password === userRole.superUser.password) {
 						var url = $location.path() + "dashboard";
+						$rootScope.logStatus = true;
+						//alert("admin");
 						$location.path(url);
 						authService.setSuper();
-						$rootScope.logStatus = true;
 					} else {
 						var url = $location.path();
 						$location.path(url);

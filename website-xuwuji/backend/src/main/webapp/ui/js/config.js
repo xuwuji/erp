@@ -95,6 +95,8 @@ dataApp.config([ '$stateProvider', '$urlRouterProvider',
 			})
 		} ]);
 
+
+
 dataApp.run(function($rootScope, $state) {
 	// set a global variable, check if the user log in
 	$rootScope.logStatus = false;
@@ -106,7 +108,7 @@ dataApp.run(function($rootScope, $state) {
 			return;
 		}
 		// if the user not login, back to the login page
-		if ($rootScope.logStatus) {
+		if (!$rootScope.logStatus) {
 			// cancel the default jump event
 			event.preventDefault();
 			// jump to the login state

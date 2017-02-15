@@ -42,7 +42,6 @@ import com.xuwuji.backend.util.TimeUtil;
 @Controller
 @RequestMapping(value = "/data")
 public class DataController {
-
 	@Autowired
 	private ERPDataDao dao;
 	@Autowired
