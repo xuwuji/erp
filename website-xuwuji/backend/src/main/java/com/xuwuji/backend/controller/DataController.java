@@ -245,8 +245,8 @@ public class DataController {
 		C_TOTAL.setCellValue(ERPData.C_TOTAL);
 		Cell C_FACTORY = row.createCell(15);
 		C_FACTORY.setCellValue(ERPData.C_FACTORY);
-		Cell C_REQUESTDATE = row.createCell(16);
-		C_REQUESTDATE.setCellValue(ERPData.C_REQUESTDATE);
+		//Cell C_REQUESTDATE = row.createCell(16);
+		//C_REQUESTDATE.setCellValue(ERPData.C_REQUESTDATE);
 		// put the data into the xls
 		for (int i = 0; i < list.size(); i++) {
 			Row dataRow = sheet.createRow((short) (i + 1));
@@ -266,7 +266,7 @@ public class DataController {
 			dataRow.createCell(13).setCellValue(list.get(i).getTaxRate());
 			dataRow.createCell(14).setCellValue(list.get(i).getTotal());
 			dataRow.createCell(15).setCellValue(list.get(i).getFactory());
-			dataRow.createCell(16).setCellValue(list.get(i).getRequestDate());
+			//dataRow.createCell(16).setCellValue(list.get(i).getRequestDate());
 		}
 		// write workbook to outputstream
 		DownloadUtil.exportExcel(request, response, wb);
