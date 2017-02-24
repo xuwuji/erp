@@ -1,4 +1,7 @@
-dataApp.controller('insertController', [ '$scope', '$http', 'dataService',
+dataApp.controller('insertController', [
+		'$scope',
+		'$http',
+		'dataService',
 		function($scope, $http, dataService) {
 			$scope.date = new Date();
 			$scope.requestDate = new Date();
@@ -14,12 +17,29 @@ dataApp.controller('insertController', [ '$scope', '$http', 'dataService',
 				$scope.mNames = [].concat(response.data.mName);
 			});
 			// console.log(this.info);
+			
+			
+			//检查材料编号，如果以前录入过，则把其他信息补全
+			$scope.check=function(mId){
+				$http.get('/backend/data/check?mId='+mId).then(function(response){
+					console.log(response);
+				});
+			}
+			
+			//录入信息
 			$scope.clickPost = function(scope) {
 				// console.log($scope.factoryInput);
 				// console.log($scope.mCategoryInput);
 				// console.log($scope.mNameInput);
-				$scope.tax = $scope.amoutNoTax * $scope.taxRate;
-				$scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) + 1);
+				// $scope.tax = $scope.amoutNoTax * $scope.taxRate;
+				// $scope.total = $scope.amoutNoTax * (($scope.taxRate - 0) +
+				// 1);
+
+				$scope.priceNoTax = $scope.total / (($scope.taxRate - 0) + 1);
+				$scope.tax = $scope.total / ((($scope.taxRate - 0) + 1))
+						* ($scope.taxRate - 0);
+				$scope.amoutNoTax = ($scope.total / (($scope.taxRate - 0) + 1))
+						* $scope.buyNum;
 				var post_data = {
 					'date' : $scope.date,
 					'mId' : $scope.mId,
@@ -29,6 +49,7 @@ dataApp.controller('insertController', [ '$scope', '$http', 'dataService',
 					'param' : $scope.param,
 					'buyNum' : $scope.buyNum,
 					'sentNum' : $scope.sentNum,
+					'inventory' : $scope.inventory,
 					'nId' : $scope.nId,
 					'orderId' : $scope.orderId,
 					'priceNoTax' : $scope.priceNoTax,

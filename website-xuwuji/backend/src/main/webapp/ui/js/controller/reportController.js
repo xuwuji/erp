@@ -19,8 +19,11 @@ dataApp
 							} else {
 								$scope.superUser = false;
 							}
-							$scope.loading = true;
-							$scope.show = false;
+							//$scope.loading = true;
+							//$scope.show = false;
+							//现在是打开界面后默认什么都不选，不显示全部
+							$scope.loading = false;
+							$scope.show = true;
 							$scope.content = [];
 							$scope.totalPerPriceNoTax = 0;
 
@@ -100,7 +103,7 @@ dataApp
 												});
 							}
 
-							getAll();
+							//getAll();
 
 							$scope.$watch('content', function(newVal, oldVal) {
 								// console.log('new:' + newVal);
@@ -350,7 +353,7 @@ dataApp
 									//$window.alert('Going to delete the user');
 									$http.get('/backend/data/delete/' + id)
 											.then(function(response) {
-												$window.location.reload();
+												$scope.apply();
 											});
 								}
 							}

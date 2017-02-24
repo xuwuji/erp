@@ -90,7 +90,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">不含税单价（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-model="totalPerPriceNoTax" style="position: static">
 			</div>
 		</div>
@@ -98,7 +98,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">不含税金额（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-model="totalPerAmountNoTax" style="position: static">
 			</div>
 		</div>
@@ -106,7 +106,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">税额（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-model="totalTax" style="position: static">
 			</div>
 		</div>
@@ -114,7 +114,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">价税统计（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-model="totalTotalTax" style="position: static">
 			</div>
 		</div>
@@ -122,7 +122,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">购入数（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-model="totalBuyNum" style="position: static">
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">发出数（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-model="totalSentNum" style="position: static">
 			</div>
 		</div>
@@ -138,7 +138,7 @@
 			<div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">库存（总计）</button>
-				</span> <input type="text" class="form-control" placeholder="计算中"
+				</span> <input type="text" class="form-control" placeholder=""
 					ng-value="totalLeftNum" style="position: static">
 			</div>
 		</div>
@@ -162,8 +162,10 @@
 		style="height: 300px; text-align: center; margin-top: 100px">
 		<md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>
 	</div>
+	<br>
+	<br>
 	<div class="lay4_inner">
-		<table class="table" ng-if="show">
+		<table class="table table-bordered" ng-if="show">
 			<thead>
 				<tr>
 					<th>日期</th>
@@ -172,8 +174,9 @@
 					<th>材料名称</th>
 					<th>规格</th>
 					<th>单位</th>
-					<th>购入数</th>
+					<th>购入数量</th>
 					<th>发出数量</th>
+					<th>库存</th>
 					<th>订单编号</th>
 					<th>单据编号</th>
 					<th ng-if="superUser">不含税单价</th>
@@ -196,6 +199,7 @@
 					<td>{{record.param}}</td>
 					<td>{{record.buyNum}}</td>
 					<td>{{record.sentNum}}</td>
+					<td>{{record.buyNum}}-{{record.sentNum}}</td>
 					<td>{{record.orderId}}</td>
 					<td>{{record.nId}}</td>
 					<td ng-if="superUser">{{record.priceNoTax}}</td>

@@ -108,7 +108,7 @@ public class ERPDataDao {
 		// // TODO Auto-generated catch block
 		// e1.printStackTrace();
 		// }
-		HashMap<String, Object> map = new HashMap();
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("from", from);
 		map.put("end", end);
 		map.put(ERPData.MCATEGORY, mCategory);
@@ -141,6 +141,23 @@ public class ERPDataDao {
 		try {
 			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
 			return mapper.getById(Integer.valueOf(id));
+		} finally {
+			System.out.println("close");
+			session.close();
+		}
+	}
+	
+	/**
+	 * 通过材料编号查找记录
+	 * @param id
+	 * @return
+	 */
+	public ERPData getByMId(String mId) {
+		SqlSession session = SessionFactory.openDEVSession();
+		try {
+			System.out.println("材料编号："+mId);
+			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
+			return mapper.getByMId(mId);
 		} finally {
 			System.out.println("close");
 			session.close();
@@ -238,7 +255,8 @@ public class ERPDataDao {
 	}
 
 	public static void main(String[] args) {
-		// ERPDataDao dao = new ERPDataDao();
+		ERPDataDao dao = new ERPDataDao();
+		System.out.println(dao.getByMId("107002"));
 		// dao.getAll();
 	}
 }

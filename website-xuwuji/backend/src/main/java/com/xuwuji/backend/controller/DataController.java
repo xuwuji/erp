@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.cache.CacheBuilder;
@@ -46,7 +47,7 @@ public class DataController {
 	@Autowired
 	private ControllerUtil controllerUtil;
 
-	//cache for reading data
+	// cache for reading data
 	private LoadingCache<String, List<ERPData>> dataCache = CacheBuilder.newBuilder().maximumSize(500)
 			.expireAfterWrite(10, TimeUnit.MINUTES).build(new CacheLoader<String, List<ERPData>>() {
 				@Override
@@ -61,6 +62,7 @@ public class DataController {
 
 	/**
 	 * get all data from db
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -80,6 +82,7 @@ public class DataController {
 
 	/**
 	 * get info of data from db
+	 * 
 	 * @return
 	 */
 	@CrossOrigin
@@ -94,6 +97,7 @@ public class DataController {
 
 	/**
 	 * get data from db based on query criteria
+	 * 
 	 * @param json
 	 * @return
 	 * @throws Exception
@@ -115,6 +119,7 @@ public class DataController {
 
 	/**
 	 * get a record based on id
+	 * 
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -127,6 +132,7 @@ public class DataController {
 
 	/**
 	 * update one record based on the its current data
+	 * 
 	 * @param json
 	 * @return
 	 */
@@ -151,6 +157,7 @@ public class DataController {
 
 	/**
 	 * insert one record into db
+	 * 
 	 * @param json
 	 * @return
 	 */
@@ -172,6 +179,7 @@ public class DataController {
 
 	/**
 	 * prepare for downloading data in excel format
+	 * 
 	 * @param json
 	 * @return
 	 * @throws ExecutionException
@@ -194,7 +202,8 @@ public class DataController {
 	}
 
 	/**
-	 * download data 
+	 * download data
+	 * 
 	 * @param request
 	 * @param response
 	 * @param key
@@ -229,24 +238,26 @@ public class DataController {
 		C_BUYNUM.setCellValue(ERPData.C_BUYNUM);
 		Cell C_SENTNUM = row.createCell(7);
 		C_SENTNUM.setCellValue(ERPData.C_SENTNUM);
-		Cell C_ORDERID = row.createCell(8);
+		Cell C_INVENTORY = row.createCell(8);
+		C_INVENTORY.setCellValue(ERPData.C_INVENTORY);
+		Cell C_ORDERID = row.createCell(9);
 		C_ORDERID.setCellValue(ERPData.C_ORDERID);
-		Cell C_NID = row.createCell(9);
+		Cell C_NID = row.createCell(10);
 		C_NID.setCellValue(ERPData.C_NID);
-		Cell C_PRICENOTAX = row.createCell(10);
+		Cell C_PRICENOTAX = row.createCell(11);
 		C_PRICENOTAX.setCellValue(ERPData.C_PRICENOTAX);
-		Cell C_AMOUNTNOTAX = row.createCell(11);
+		Cell C_AMOUNTNOTAX = row.createCell(12);
 		C_AMOUNTNOTAX.setCellValue(ERPData.C_AMOUNTNOTAX);
-		Cell C_TAX = row.createCell(12);
+		Cell C_TAX = row.createCell(13);
 		C_TAX.setCellValue(ERPData.C_TAX);
-		Cell C_TAXRATE = row.createCell(13);
+		Cell C_TAXRATE = row.createCell(14);
 		C_TAXRATE.setCellValue(ERPData.C_TAXRATE);
-		Cell C_TOTAL = row.createCell(14);
+		Cell C_TOTAL = row.createCell(15);
 		C_TOTAL.setCellValue(ERPData.C_TOTAL);
-		Cell C_FACTORY = row.createCell(15);
+		Cell C_FACTORY = row.createCell(16);
 		C_FACTORY.setCellValue(ERPData.C_FACTORY);
-		//Cell C_REQUESTDATE = row.createCell(16);
-		//C_REQUESTDATE.setCellValue(ERPData.C_REQUESTDATE);
+		// Cell C_REQUESTDATE = row.createCell(16);
+		// C_REQUESTDATE.setCellValue(ERPData.C_REQUESTDATE);
 		// put the data into the xls
 		for (int i = 0; i < list.size(); i++) {
 			Row dataRow = sheet.createRow((short) (i + 1));
@@ -256,17 +267,34 @@ public class DataController {
 			dataRow.createCell(3).setCellValue(list.get(i).getmName());
 			dataRow.createCell(4).setCellValue(list.get(i).getSize());
 			dataRow.createCell(5).setCellValue(list.get(i).getParam());
-			dataRow.createCell(6).setCellValue(list.get(i).getBuyNum());
-			dataRow.createCell(7).setCellValue(list.get(i).getSentNum());
-			dataRow.createCell(8).setCellValue(list.get(i).getOrderId());
-			dataRow.createCell(9).setCellValue(list.get(i).getnId());
-			dataRow.createCell(10).setCellValue(list.get(i).getPriceNoTax());
-			dataRow.createCell(11).setCellValue(list.get(i).getAmoutNoTax());
-			dataRow.createCell(12).setCellValue(list.get(i).getTax());
-			dataRow.createCell(13).setCellValue(list.get(i).getTaxRate());
-			dataRow.createCell(14).setCellValue(list.get(i).getTotal());
-			dataRow.createCell(15).setCellValue(list.get(i).getFactory());
-			//dataRow.createCell(16).setCellValue(list.get(i).getRequestDate());
+			double buyNum = 0;
+			double sentNum = 0;
+			try {
+				buyNum = Double.valueOf(list.get(i).getBuyNum());
+				dataRow.createCell(6).setCellValue(buyNum);
+			} catch (Exception e) {
+				dataRow.createCell(6).setCellValue(buyNum);
+			}
+			try {
+				sentNum = Double.valueOf(list.get(i).getSentNum());
+				dataRow.createCell(7).setCellValue(sentNum);
+			} catch (Exception e) {
+				dataRow.createCell(7).setCellValue(sentNum);
+			}
+			dataRow.createCell(8).setCellValue(Math.abs(buyNum - sentNum));
+			dataRow.createCell(9).setCellValue(list.get(i).getOrderId());
+			dataRow.createCell(10).setCellValue(list.get(i).getnId());
+			dataRow.createCell(11)
+					.setCellValue(Double.valueOf(list.get(i).getPriceNoTax().replaceAll(",", "").replace("-", "0")));
+			dataRow.createCell(12)
+					.setCellValue(Double.valueOf(list.get(i).getAmoutNoTax().replaceAll(",", "").replace("-", "0")));
+			dataRow.createCell(13)
+					.setCellValue(Double.valueOf(list.get(i).getTax().replaceAll(",", "").replace("-", "0")));
+			dataRow.createCell(14).setCellValue(list.get(i).getTaxRate());
+			dataRow.createCell(15)
+					.setCellValue(Double.valueOf(list.get(i).getTotal().replaceAll(",", "").replace("-", "0")));
+			dataRow.createCell(16).setCellValue(list.get(i).getFactory());
+			// dataRow.createCell(16).setCellValue(list.get(i).getRequestDate());
 		}
 		// write workbook to outputstream
 		DownloadUtil.exportExcel(request, response, wb);
@@ -274,6 +302,7 @@ public class DataController {
 
 	/**
 	 * delete one record based on id
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -288,4 +317,15 @@ public class DataController {
 		}
 	}
 
+	/**
+	 * 数据录入时，检查是否此材料单号已经输入过，若有，则把其他填过的信息补全
+	 * @param mId
+	 * @return
+	 */
+	@RequestMapping(value="/check",method=RequestMethod.GET)
+	public RestResponse checkMId(@RequestParam(value="mId")String mId){
+		return null;
+	}
+	
+	
 }

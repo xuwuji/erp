@@ -110,11 +110,11 @@ dataApp
 														// $scope.amoutNoTax
 													} else {
 														$scope.error = false;
-														alert("修改成功");
+														alert("修改成功，请点击查询查看更新后结果");
 														$modalInstance
 																.dismiss('cancel');
-														$window.location
-																.reload();
+//														$window.location
+//																.reload();
 													}
 												});
 							};

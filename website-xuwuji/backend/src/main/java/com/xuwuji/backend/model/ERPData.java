@@ -12,6 +12,8 @@ public class ERPData {
 	private String param;
 	private int buyNum;
 	private String sentNum;
+	//库存
+	private String inventory;
 	private String orderId;
 	private String nId;
 	private String priceNoTax;
@@ -32,6 +34,7 @@ public class ERPData {
 	public static final String PARAM = "param";
 	public static final String BUYNUM = "buyNum";
 	public static final String SENTNUM = "sentNum";
+	public static final String INVENTORY = "inventory";
 	public static final String ORDERID = "orderId";
 	public static final String NID = "nId";
 	public static final String PRICENOTAX = "priceNoTax";
@@ -51,6 +54,7 @@ public class ERPData {
 	public static final String C_PARAM = "单位";
 	public static final String C_BUYNUM = "购入数";
 	public static final String C_SENTNUM = "发出数";
+	public static final String C_INVENTORY = "库存";
 	public static final String C_ORDERID = "订单编号";
 	public static final String C_NID = "单据编号";
 	public static final String C_PRICENOTAX = "不含税单价";
@@ -73,6 +77,7 @@ public class ERPData {
 		CN_US.put(ERPData.PARAM, ERPData.C_PARAM);
 		CN_US.put(ERPData.BUYNUM, ERPData.C_BUYNUM);
 		CN_US.put(ERPData.SENTNUM, ERPData.C_SENTNUM);
+		CN_US.put(ERPData.INVENTORY, ERPData.C_INVENTORY);
 		CN_US.put(ERPData.ORDERID, ERPData.C_ORDERID);
 		CN_US.put(ERPData.NID, ERPData.C_NID);
 		CN_US.put(ERPData.PRICENOTAX, ERPData.C_PRICENOTAX);
@@ -156,6 +161,14 @@ public class ERPData {
 		this.sentNum = sentNum;
 	}
 
+	public String getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(String inventory) {
+		this.inventory = inventory;
+	}
+
 	public String getOrderId() {
 		return orderId;
 	}
@@ -231,10 +244,10 @@ public class ERPData {
 	@Override
 	public String toString() {
 		return "ERPData [id=" + id + ", date=" + date + ", mId=" + mId + ", mCategory=" + mCategory + ", mName=" + mName
-				+ ", size=" + size + ", param=" + param + ", buyNum=" + buyNum + ", sentNum=" + sentNum + ", orderId="
-				+ orderId + ", nId=" + nId + ", priceNoTax=" + priceNoTax + ", amoutNoTax=" + amoutNoTax + ", tax="
-				+ tax + ", taxRate=" + taxRate + ", total=" + total + ", factory=" + factory + ", requestDate="
-				+ requestDate + "]";
+				+ ", size=" + size + ", param=" + param + ", buyNum=" + buyNum + ", sentNum=" + sentNum + ", inventory="
+				+ inventory + ", orderId=" + orderId + ", nId=" + nId + ", priceNoTax=" + priceNoTax + ", amoutNoTax="
+				+ amoutNoTax + ", tax=" + tax + ", taxRate=" + taxRate + ", total=" + total + ", factory=" + factory
+				+ ", requestDate=" + requestDate + "]";
 	}
 
 }

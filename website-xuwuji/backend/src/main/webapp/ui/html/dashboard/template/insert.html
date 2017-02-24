@@ -1,102 +1,115 @@
 <div class="lay4_wrap" ng-controller="insertController">
-    <div class="lay4_inner">
-       <!--  <br>
+	<div class="lay4_inner">
+		<!--  <br>
         <br> -->
-      <!--   <button class="btn btn-primary">上传Excel文件</button> -->
-        <md-content layout-padding="" style="background-color:white">
-            <form name="dataForm">
-                <div flex-gt-xs>
-                    <label>日期:</label>
-                    <md-datepicker ng-model="date" md-placeholder="Enter date"></md-datepicker>
-                </div>
-<!--
+		<!--   <button class="btn btn-primary">上传Excel文件</button> -->
+		<md-content layout-padding="" style="background-color:white">
+		<form name="dataForm">
+			<div flex-gt-xs>
+				<label>日期:</label>
+				<md-datepicker ng-model="date" md-placeholder="Enter date"></md-datepicker>
+			</div>
+			<!--
                <div flex-gt-xs>
     <label>申请付款日期:</label>
     <md-datepicker ng-model="requestDate" md-placeholder="Enter date"></md-datepicker>
 </div>
 -->
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>材料编号</label>
-                    <input ng-model="mId" required=""> </md-input-container>
-                <!--
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>材料类型</label>
-                    <input ng-model="mCategory" required=""> </md-input-container>
--->
-                <md-autocomplete ng-disabled="insertController.isDisabled" md-no-cache="insertController.noCache" md-selected-item="mCategorySelected" md-search-text="mCategoryInput" md-items="item in mCategories| filter:mCategoryInput" md-item-text="item" md-min-length="0" placeholder="材料类型">
-                    <md-item-template> <span md-highlight-text="mCategoryInput" md-highlight-flags="^i">{{item}}</span> </md-item-template>
-                    <md-not-found> 没有 "{{mCategoryInput}}" 相关记录</md-not-found>
-                </md-autocomplete>
-                <br>
-                <!--
-          <md-input-container class="md-block" flex-gt-sm="">
-    <label>材料名称</label>
-    <input ng-model="mName" required=""> </md-input-container>
--->
-                <md-autocomplete ng-disabled="insertController.isDisabled" md-no-cache="insertController.noCache" md-selected-item="mNameselected" md-search-text="mNameInput" md-items="item in mNames| filter:mNameInput" md-item-text="item" md-min-length="0" placeholder="材料名称">
-                    <md-item-template> <span md-highlight-text="mNameInput" md-highlight-flags="^i">{{item}}</span> </md-item-template>
-                    <md-not-found> 没有 "{{mNameInput}}" 相关记录</md-not-found>
-                </md-autocomplete>
-                <br>
-                <md-autocomplete ng-disabled="insertController.isDisabled" md-no-cache="insertController.noCache" md-selected-item="factoryInputselected" md-search-text="factoryInput" md-items="item in factories| filter:factoryInput" md-item-text="item" md-min-length="0" placeholder="厂商">
-                    <md-item-template> <span md-highlight-text="insertController.searchText" md-highlight-flags="^i">{{item}}</span> </md-item-template>
-                    <md-not-found> 没有 "{{factoryInput}}" 相关记录</md-not-found>
-                </md-autocomplete>
-                <br>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>规格</label>
-                    <input name="size" ng-model="size" required="" ng-trim="true"> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>单位</label>
-                    <input ng-model="param" required=""> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>购入数</label>
-                    <input ng-model="buyNum"> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>发出数量</label>
-                    <input ng-model="sentNum"> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>订单编号</label>
-                    <input ng-model="orderId" required=""> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>单据编号</label>
-                    <input ng-model="nId" required=""> </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>不含税单价</label>
-                    <input ng-model="priceNoTax" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
-                    <div ng-messages="dataForm.priceNoTax.$error">
-                        <div ng-message="pattern">请输入正确的数字</div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>不含税金额</label>
-                    <input name="amoutNoTax" ng-model="amoutNoTax" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
-                    <div ng-messages="dataForm.amoutNoTax.$error">
-                        <div ng-message="pattern">请输入正确的数字</div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>税率</label>
-                    <input name="taxRate" ng-model="taxRate" required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
-                    <div ng-messages="dataForm.taxRate.$error">
-                        <div ng-message="pattern">请输入正确的数字</div>
-                    </div>
-                </md-input-container>
-                <div>
-                    <label>税额:</label>{{amoutNoTax*(taxRate)|number}}</div>
-                <br>
-                <div>
-                    <label>价格统计:</label>{{amoutNoTax*((taxRate-0)+1)}}</div>
-                <!--
+			<!-- 材料编号 -->
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>材料编号</label> <input ng-model="mId" required=""><button type="button" class="btn btn-primary" ng-click="check(mId)">检查材料编号</button> </md-input-container>
+			<!-- 材料类型 -->
+			<md-autocomplete ng-disabled="insertController.isDisabled"
+				md-no-cache="insertController.noCache"
+				md-selected-item="mCategorySelected" md-search-text="mCategoryInput"
+				md-items="item in mCategories| filter:mCategoryInput"
+				md-item-text="item" md-min-length="0" placeholder="材料类型">
+			<md-item-template> <span
+				md-highlight-text="mCategoryInput" md-highlight-flags="^i">{{item}}</span>
+			</md-item-template> <md-not-found> 没有 "{{mCategoryInput}}" 相关记录</md-not-found> </md-autocomplete>
+			<br>
+			<!-- 材料名称 -->
+			<md-autocomplete ng-disabled="insertController.isDisabled"
+				md-no-cache="insertController.noCache"
+				md-selected-item="mNameselected" md-search-text="mNameInput"
+				md-items="item in mNames| filter:mNameInput" md-item-text="item"
+				md-min-length="0" placeholder="材料名称"> <md-item-template>
+			<span md-highlight-text="mNameInput" md-highlight-flags="^i">{{item}}</span>
+			</md-item-template> <md-not-found> 没有 "{{mNameInput}}" 相关记录</md-not-found> </md-autocomplete>
+			<br>
+			<!-- 厂商 -->
+			<md-autocomplete ng-disabled="insertController.isDisabled"
+				md-no-cache="insertController.noCache"
+				md-selected-item="factoryInputselected"
+				md-search-text="factoryInput"
+				md-items="item in factories| filter:factoryInput"
+				md-item-text="item" md-min-length="0" placeholder="厂商">
+			<md-item-template> <span
+				md-highlight-text="insertController.searchText"
+				md-highlight-flags="^i">{{item}}</span> </md-item-template> <md-not-found>
+			没有 "{{factoryInput}}" 相关记录</md-not-found> </md-autocomplete>
+			<br>
+			<!-- 项目名称 -->
+			<md-autocomplete ng-disabled="insertController.isDisabled"
+				md-no-cache="insertController.noCache"
+				md-selected-item="factoryInputselected"
+				md-search-text="factoryInput"
+				md-items="item in factories| filter:factoryInput"
+				md-item-text="item" md-min-length="0" placeholder="项目名称">
+			<md-item-template> <span
+				md-highlight-text="insertController.searchText"
+				md-highlight-flags="^i">{{item}}</span> </md-item-template> <md-not-found>
+			没有 "{{factoryInput}}" 相关记录</md-not-found> </md-autocomplete>
+			<br>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>规格</label> <input name="size" ng-model="size" required=""
+				ng-trim="true"> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>单位</label> <input ng-model="param" required=""> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>购入数量</label> <input ng-model="buyNum"> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>发出数量</label> <input ng-model="sentNum"> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>库存</label> <input ng-model="inventory"> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>订单编号</label> <input ng-model="orderId" required=""> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>单据编号</label> <input ng-model="nId" required=""> </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>税率</label> <input name="taxRate" ng-model="taxRate"
+				required="" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+			<div ng-messages="dataForm.taxRate.$error">
+				<div ng-message="pattern">请输入正确的数字</div>
+			</div>
+			</md-input-container>
+			<md-input-container class="md-block" flex-gt-sm="">
+			<label>价税合计</label> <input name="total" ng-model="total" required=""
+				ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/">
+			<div ng-messages="dataForm.taxRate.$error">
+				<div ng-message="pattern">请输入正确的数字</div>
+			</div>
+			</md-input-container>
+			<div>
+				<label>不含税单价:</label>{{total/((taxRate-0)+1)|number}}
+			</div>
+			<div>
+				<label>税额:</label>{{total/(((taxRate-0)+1))*(taxRate-0)|number}}
+			</div>
+			<div>
+				<label>不含税金额:</label>{{(total/((taxRate-0)+1))*buyNum|number}}
+			</div>
+			<br>
+			<!--
                 <md-input-container class="md-block" flex-gt-sm="">
     <label>厂商</label>
     <input ng-model="factory" required=""> </md-input-container>
 -->
-            </form>
-        </md-content>
-        <div style=" width: 25%;margin: 0 auto;padding-top:20px ">
-            <!--            <button type="button" class="btn btn-info">preview</button>-->
-            <button type="button" class="btn btn-primary" ng-click="clickPost()">确认</button>
-        </div>
-    </div>
+		</form>
+		</md-content>
+		<div style="width: 25%; margin: 0 auto; padding-top: 20px">
+			<!--            <button type="button" class="btn btn-info">preview</button>-->
+			<button type="button" class="btn btn-primary" ng-click="clickPost()">确认</button>
+		</div>
+	</div>
 </div>

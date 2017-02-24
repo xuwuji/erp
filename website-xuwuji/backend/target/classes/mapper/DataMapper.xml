@@ -171,4 +171,8 @@
 		where id=#{id}
 	</update>
 
+	<select id="getByMId" resultMap="ERPDataResult">
+		select * from data where mid=#{mId};
+	</select>
+
 </mapper>
