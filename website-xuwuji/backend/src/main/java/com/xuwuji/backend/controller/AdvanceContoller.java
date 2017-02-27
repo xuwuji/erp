@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xuwuji.backend.dao.AdvanceDao;
 
@@ -23,6 +24,7 @@ public class AdvanceContoller {
 	 * @return
 	 */
 	@RequestMapping(value = "/NumVsMonth")
+	@ResponseBody
 	public HashMap<String, LinkedHashMap<String, Double>> getNumVsMonth() {
 		HashMap<String, LinkedHashMap<String, Double>> map = advanceDao.getBuyAndSentByMonth();
 		return map;
@@ -36,6 +38,7 @@ public class AdvanceContoller {
 	 * @return
 	 */
 	@RequestMapping(value = "/SumByMCategoryAndMonth")
+	@ResponseBody
 	public HashMap<String, Double> getBuySumByMCategoryAndMonth(@RequestParam(value = "startDate") String startDate,
 			@RequestParam(value = "endDate") String endDate) {
 		HashMap<String, Double> map = advanceDao.getNumByCategoryAndMonth(startDate, endDate);
