@@ -21,7 +21,6 @@
 		<mvc:mapping path="/**" />
 	</mvc:cors>
 
-
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
@@ -43,4 +42,7 @@
 
 	<bean id="advanceRepository" class="com.xuwuji.backend.repository.AdvanceRepository">
 	</bean>
+	<!--import advance beans -->
+	<!-- <import resource="advance.xml" /> -->
+
 </beans>

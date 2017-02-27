@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xuwuji.backend.mapper.AdvanceMapper">
+
+	<!--<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" 
+		type="org.mybatis.caches.redis.RedisCache"/> -->
+
+	<select id="getNumVsMonth" parameterType="hashmap" resultType="map">
+		select sum(buyNum) as buyNum,sum(sentNum) as sentNum
+		from data where date &lt;=#{endDate} and date &gt;=#{startDate};
+	</select>
+
+</mapper>
