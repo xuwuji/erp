@@ -10,7 +10,15 @@
 
 	<select id="getNumVsMonth" parameterType="hashmap" resultType="map">
 		select sum(buyNum) as buyNum,sum(sentNum) as sentNum
-		from data where date &lt;=#{endDate} and date &gt;=#{startDate};
+		from data where
+		date &lt;=#{endDate} and date &gt;=#{startDate};
+	</select>
+
+	<select id="getBuySumByMCategoryAndMonth" parameterType="hashmap"
+	resultType="map">
+	select sum(buyNum) as sum
+	from data where mCategory =
+	#{mCategory} and date &lt;=#{endDate} and date &gt;=#{startDate};
 	</select>
 
 </mapper>

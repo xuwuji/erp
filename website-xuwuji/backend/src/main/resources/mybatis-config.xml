@@ -11,6 +11,8 @@
 	<!-- The default MyBatis global settings, which can be overridden to better 
 		suit application-specific needs -->
 	<settings>
+		<!-- 打印sql语句 -->
+		<setting name="logImpl" value="STDOUT_LOGGING" />
 		<setting name="cacheEnabled" value="true" />
 		<setting name="lazyLoadingEnabled" value="true" />
 		<setting name="multipleResultSetsEnabled" value="true" />

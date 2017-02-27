@@ -12,7 +12,14 @@ import com.xuwuji.backend.util.SessionFactory;
 @Repository
 public class AdvanceRepository {
 
-	public HashMap<String, Long> getNumVsMonth(String startDate, String endDate) {
+	/**
+	 * 得到每个月的购入总数和发出总数
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public HashMap<String, Object> getNumVsMonth(String startDate, String endDate) {
 		SqlSession session = SessionFactory.openDEVSession();
 		AdvanceMapper mapper = session.getMapper(AdvanceMapper.class);
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -25,9 +32,29 @@ public class AdvanceRepository {
 		}
 	}
 
+	/**
+	 * 根据某段时间内，一种材料类型的发出总数
+	 * 
+	 * @param mCatgory
+	 * @param month
+	 */
+	public HashMap<String, Object> getBuySumByMCategoryAndMonth(String mCategory, String startDate, String endDate) {
+		SqlSession session = SessionFactory.openDEVSession();
+		AdvanceMapper mapper = session.getMapper(AdvanceMapper.class);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("mCategory", mCategory);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		try {
+			return mapper.getBuySumByMCategoryAndMonth(map);
+		} finally {
+			session.close();
+		}
+	}
+
 	public static void main(String[] args) {
 		AdvanceRepository repo = new AdvanceRepository();
-		for (Entry<String, Long> entry : repo.getNumVsMonth("2016-10-01", "2016-10-31").entrySet()) {
+		for (Entry<String, Object> entry : repo.getNumVsMonth("2016-10-01", "2016-10-31").entrySet()) {
 			System.out.println(entry.getKey());
 			System.out.println(entry.getValue());
 		}
