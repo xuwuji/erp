@@ -15,5 +15,7 @@
 	<bean id="client" class="com.xuwuji.db.service.QueryService"
 		autowire="byType">
 	</bean>
+	
+
 </beans>
 

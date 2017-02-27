@@ -72,12 +72,12 @@ dataApp.controller('advanceController', [
 					"connectNulls" : true,
 					"id" : "series-1"
 				}, {
-					"name" : "俊安（广州泰康）",
+					"name" : "发出数量",
 					"data" : [ 5, 2, 2, 3, 5 ],
 					"type" : "column",
 					"id" : "series-2"
 				}, {
-					"name" : "天元（东莞希尔顿",
+					"name" : "购入数量",
 					"data" : [ 1, 1, 2, 3, 2 ],
 					"type" : "column",
 					"id" : "series-3"

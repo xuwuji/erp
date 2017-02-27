@@ -12,7 +12,7 @@
 	<context:component-scan base-package="com.xuwuji.backend.*" />
 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	
+
 	<mvc:resources mapping="/ui/**" location="/ui/" />
 
 	<mvc:annotation-driven />
@@ -39,5 +39,8 @@
 		<property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
 		<!-- max size of file in memory (in bytes) -->
 		<property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+	</bean>
+
+	<bean id="advanceRepository" class="com.xuwuji.backend.repository.AdvanceRepository">
 	</bean>
 </beans>
