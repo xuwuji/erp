@@ -319,13 +319,14 @@ public class DataController {
 
 	/**
 	 * 数据录入时，检查是否此材料单号已经输入过，若有，则把其他填过的信息补全
+	 * 
 	 * @param mId
 	 * @return
 	 */
-	@RequestMapping(value="/check",method=RequestMethod.GET)
-	public RestResponse checkMId(@RequestParam(value="mId")String mId){
-		return null;
+	@RequestMapping(value = "/check", method = RequestMethod.GET)
+	@ResponseBody
+	public ERPData checkMId(@RequestParam(value = "mId") String mId) {
+		return dao.getByMId(mId);
 	}
-	
-	
+
 }

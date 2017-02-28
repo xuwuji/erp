@@ -17,16 +17,27 @@ dataApp.controller('insertController', [
 				$scope.mNames = [].concat(response.data.mName);
 			});
 			// console.log(this.info);
-			
-			
-			//检查材料编号，如果以前录入过，则把其他信息补全
-			$scope.check=function(mId){
-				$http.get('/backend/data/check?mId='+mId).then(function(response){
-					console.log(response);
-				});
+
+			// 检查材料编号，如果以前录入过，则把其他信息补全
+			$scope.check = function(mId) {
+				$http.get('/backend/data/check?mId=' + mId).then(
+						function(response) {
+							console.log(response);
+							var record = response.data;
+							if (record == "" || record === "" || record == null
+									|| record == undefined) {
+								alert("未输入过此单号");
+							} else {
+								$scope.mId = record.mId;
+								$scope.mCategoryInput = record.mCategory;
+								$scope.mNameInput = record.mName;
+								$scope.size = record.size;
+								$scope.param = record.param;
+							}
+						});
 			}
-			
-			//录入信息
+
+			// 录入信息
 			$scope.clickPost = function(scope) {
 				// console.log($scope.factoryInput);
 				// console.log($scope.mCategoryInput);

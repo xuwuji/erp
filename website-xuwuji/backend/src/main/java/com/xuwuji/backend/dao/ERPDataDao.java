@@ -146,18 +146,22 @@ public class ERPDataDao {
 			session.close();
 		}
 	}
-	
+
 	/**
 	 * 通过材料编号查找记录
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public ERPData getByMId(String mId) {
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
-			System.out.println("材料编号："+mId);
+			System.out.println("材料编号：" + mId);
 			ERPDataMapper mapper = session.getMapper(ERPDataMapper.class);
-			return mapper.getByMId(mId);
+			if (mapper.getByMId(mId).size() == 0) {
+				return null;
+			}
+			return mapper.getByMId(mId).get(0);
 		} finally {
 			System.out.println("close");
 			session.close();
@@ -237,7 +241,8 @@ public class ERPDataDao {
 		data.setPriceNoTax(object.getString(ERPData.PRICENOTAX));
 		data.setAmoutNoTax(object.getString(ERPData.AMOUNTNOTAX));
 		data.setOrderId(object.getString(ERPData.ORDERID));
-		//data.setRequestDate(TimeUtil.getSimpleDateTime(new DateTime(object.getString(ERPData.REQUESTDATE))));
+		// data.setRequestDate(TimeUtil.getSimpleDateTime(new
+		// DateTime(object.getString(ERPData.REQUESTDATE))));
 		SqlSession session = SessionFactory.openDEVSession();
 		try {
 			System.out.println("trying to update id: " + object.getInt(ERPData.ID));
