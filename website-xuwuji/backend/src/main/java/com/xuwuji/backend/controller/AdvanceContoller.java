@@ -13,6 +13,12 @@ import com.xuwuji.backend.dao.AdvanceDao;
 
 @Controller
 @RequestMapping(value = "/advance")
+/**
+ * controller for advance page
+ * 
+ * @author wuji.xwj
+ *
+ */
 public class AdvanceContoller {
 
 	@Autowired

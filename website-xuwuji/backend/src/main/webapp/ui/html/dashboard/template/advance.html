@@ -1,13 +1,27 @@
 <div class="lay4_wrap" ng-controller="advanceController">
-    <div class="lay4_inner">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <highchart id="chart" config="chartConfig"></highchart>
-        <highchart id="chart1" config="chartConfig1"></highchart>
-       <!--  <highchart id="chart2" config="chartConfig2"></highchart> -->
-        <highchart id="chart3" config="chartConfig3"></highchart>
-    </div>
+	<div class="lay4_inner">
+		<br> <br> <br> <br> <br>
+		<div class="input-group">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button">日期</button>
+			</span> <input date-range-picker class="form-control date-picker"
+				type="text" ng-model="chartOneDate" options="dateOpts"
+				placeholder="点击选择起止日期" />
+		</div>
+		<br>
+		<div>
+			<button class="btn btn-primary" type="button"
+				ng-click="chartOneClick()">查询</button>
+		</div>
+
+		<highchart id="chart" config="chartConfig1"></highchart>
+		<br> <br> <br>
+		<hr style="height: 1px; border: none; border-top: 1px solid #555555;" />
+		<br> <br> <br>
+		<br> <br>
+		<highchart id="chart1" config="chartConfig2"></highchart>
+		<br> <br> <br> <br> <br>
+		<!--  <highchart id="chart2" config="chartConfig2"></highchart> -->
+		<highchart id="chart3" config="chartConfig3"></highchart>
+	</div>
 </div>
