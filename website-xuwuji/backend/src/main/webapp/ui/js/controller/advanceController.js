@@ -58,7 +58,6 @@ dataApp
 											dataLabels : {
 												enabled : true
 											},
-											enableMouseTracking : false
 										}
 									}
 								},
@@ -90,10 +89,7 @@ dataApp
 								// binding
 								// to the chart's maximum and minimum
 								xAxis : {
-									categories : [],
-									title : {
-										text : '材料名称'
-									}
+									categories : [ "材料类型" ],
 								},
 								credits : {
 									enabled : false
@@ -125,11 +121,14 @@ dataApp
 										+ request.from
 										+ "&endDate="
 										+ request.end;
+								$scope.chartConfig1.series = [];
 								$http
 										.get(url)
 										.then(
 												function(response) {
 													for ( var key in response.data) {
+														console
+																.log(response.data);
 														var record = {}
 														record.name = key;
 														record.data = [];
@@ -137,8 +136,6 @@ dataApp
 																.push(response.data[key]);
 														$scope.chartConfig1.series
 																.push(record);
-														$scope.chartConfig1.xAxis.categories
-																.push(key);
 													}
 												});
 							}
@@ -153,7 +150,6 @@ dataApp
 											dataLabels : {
 												enabled : true
 											},
-											enableMouseTracking : false
 										}
 									}
 								},
@@ -175,7 +171,7 @@ dataApp
 									"text" : "每月发出总量与购入总量"
 								},
 								"credits" : {
-									"enabled" : true
+									"enabled" : false
 								},
 								"loading" : false,
 								"size" : {}
